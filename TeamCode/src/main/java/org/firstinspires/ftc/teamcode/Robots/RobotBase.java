@@ -30,8 +30,7 @@ public class RobotBase {
     // drivetrain
     public DcMotorEx frontRight, frontLeft, backRight, backLeft;
     public DcMotorEx[] drivetrain;
-    public Encoder wee;
-    //    public DcMotorEx odoRight, odoLeft, odoBack;
+    public DcMotorEx odoRight, odoLeft, odoBack;
     // sensor/controllers
     public BNO055IMU imu;
 
