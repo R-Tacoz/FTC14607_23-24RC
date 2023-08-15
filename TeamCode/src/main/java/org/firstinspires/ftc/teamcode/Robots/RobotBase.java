@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.hardware.MotorControlAlgorithm;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.RoadRunnerUtil.util.Encoder;
+import org.firstinspires.ftc.teamcode.util.Odometry;
 
 /**
  * Controller class to congregate code for manipulating physical hardware on the robot
@@ -27,10 +27,12 @@ public class RobotBase {
     // op mode
     public LinearOpMode opMode;
     public Telemetry telemetry;
+    public HardwareMap hardwareMap;
     // drivetrain
     public DcMotorEx frontRight, frontLeft, backRight, backLeft;
     public DcMotorEx[] drivetrain;
     public DcMotorEx odoRight, odoLeft, odoBack;
+    public Odometry odometry;
     // sensor/controllers
     public BNO055IMU imu;
 
@@ -54,19 +56,17 @@ public class RobotBase {
             headKeepP=40, headKeepI=0, headKeepD=10, headKeepF=0;
     public static PIDFController FRPIDF, FLPIDF, BRPIDF, BLPIDF, headKeepPIDF;
     // hardware properties
-    public final int MOTOR_TICKS; //
+    public final int DRIVETRAIN_TICKS; //
     public final double WHEEL_DIAMETER, WHEEL_CIRCUM; // cm
 
     /**
      * Instantiate all variables related to the robot and the opmode, initialize imu and pid w/ parameters.
-     * @param hardwareMap The opmode's hardwareMap
      * @param opModeInstance The opmode (pass using "this" keyword)
-     * @param telemetryInstance The opmode's telemetry
      */
-    protected RobotBase(HardwareMap hardwareMap, LinearOpMode opModeInstance, Telemetry telemetryInstance,
-                        int motorTicks, double wheelDiameter) {
+    protected RobotBase(LinearOpMode opModeInstance, int drivetrainTicks, double wheelDiameter) {
         opMode = opModeInstance;
-        telemetry = telemetryInstance;
+        telemetry = opMode.telemetry;
+        hardwareMap = opMode.hardwareMap;
 
         //drivetrain
         frontRight = hardwareMap.get(DcMotorEx.class, "FrontRight");
@@ -113,7 +113,7 @@ public class RobotBase {
         imu.initialize(imuparams);
 
         // init constants
-        this.MOTOR_TICKS = motorTicks;
+        this.DRIVETRAIN_TICKS = drivetrainTicks;
         this.WHEEL_DIAMETER = wheelDiameter;
         this.WHEEL_CIRCUM = Math.PI * wheelDiameter;
     }
@@ -139,7 +139,7 @@ public class RobotBase {
      * @return Ticks for the drivetrain motors to turn
      */
     public int distanceToTicks(double distance, boolean strafe) {
-        return (int) Math.round( (distance/this.WHEEL_CIRCUM * this.MOTOR_TICKS) * (strafe ? 1.2:1)  );
+        return (int) Math.round( (distance/this.WHEEL_CIRCUM * this.DRIVETRAIN_TICKS) * (strafe ? 1.2:1)  );
     }
 
     public double fixAngle(double angle) {
