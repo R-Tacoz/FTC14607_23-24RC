@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.Robots;
 
 import java.lang.Math;
+import java.util.List;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.controller.PIDFController;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -67,6 +69,11 @@ public class RobotBase {
         opMode = opModeInstance;
         telemetry = opMode.telemetry;
         hardwareMap = opMode.hardwareMap;
+
+        // set bulk reads to auto
+        List<LynxModule> hubs = hardwareMap.getAll(LynxModule.class);
+        for(LynxModule hub : hubs)
+            hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
 
         //drivetrain
         frontRight = hardwareMap.get(DcMotorEx.class, "FrontRight");
