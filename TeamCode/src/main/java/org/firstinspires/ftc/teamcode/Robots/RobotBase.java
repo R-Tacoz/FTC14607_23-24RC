@@ -33,8 +33,6 @@ public class RobotBase {
     // drivetrain
     public DcMotorEx frontRight, frontLeft, backRight, backLeft;
     public DcMotorEx[] drivetrain;
-    public DcMotorEx odoRight, odoLeft, odoBack;
-    public Odometry odometry;
     // sensor/controllers
     public BNO055IMU imu;
 
@@ -45,13 +43,16 @@ public class RobotBase {
     public static PIDFController rotatePIDF;
 
     public PIDFController[] strafePIDFs; // for enhanced strafe
-    public static PIDFController FRStrafePID =   new PIDFController(1.47,0.06,0.1,0.3);// FR
-    public static PIDFController FLStrafePID = new PIDFController(1.6,0.06,0.1,0.3); // FL
-    public static PIDFController BRStrafePID = new PIDFController(1.7,0.06,0.1,0.3); // BR
-    public static PIDFController BLStrafePID = new PIDFController(1.9,0.06,0.1,0.3); // BL
+    public static PIDFController
+            FRStrafePID = new PIDFController(1.47,0.06,0.1,0.3),
+            FLStrafePID = new PIDFController(1.6,0.06,0.1,0.3),
+            BRStrafePID = new PIDFController(1.7,0.06,0.1,0.3),
+            BLStrafePID = new PIDFController(1.9,0.06,0.1,0.3)
+    ;
 
     public PIDFController[] drivePIDFs; // for enhanced forward
-    public static double frP=2.8, frI=0, frD=1.21, frF=0.2,
+    public static double
+            frP=2.8, frI=0, frD=1.21, frF=0.2,
             flP=2.8, flI=0, flD=1.21, flF=0.21,
             brP=2.8, brI=0, brD=1.21, brF=0.2,
             blP=2.8, blI=0, blD=1.21, blF=0.21,

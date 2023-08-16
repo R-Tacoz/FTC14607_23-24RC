@@ -16,7 +16,7 @@ public class IdiotsInCars extends LinearOpMode {
     ToBeNamed robot;
 
     public void runOpMode() {
-        robot = new ToBeNamed(this, 0,0, 30, 0);
+        robot = new ToBeNamed(this, 0,0, 8192, 5, 30, 0);
 
         waitForStart();
         while(opModeIsActive())

@@ -8,16 +8,28 @@ import org.firstinspires.ftc.teamcode.util.ThreeWheelOdometry;
 
 public class ToBeNamed extends RobotBase {
     public Odometry odometry;
+    public int odoTicks;
 
-    public ToBeNamed(LinearOpMode opModeInstance, int drivetrainTicks, int wheelDiameter, float odoWidth, float odoBackDist) {
+    public ToBeNamed(
+        LinearOpMode opModeInstance,
+        int drivetrainTicks,
+        int wheelDiameter,
+        int odoTicks,
+        float odoWheelDiam,
+        float odoWidth,
+        float odoBackDist
+    ) {
         super(opModeInstance, drivetrainTicks, wheelDiameter);
         odometry = new ThreeWheelOdometry(
             hardwareMap.get(DcMotor.class, "odoRight"),
             hardwareMap.get(DcMotor.class, "odoLeft"),
             hardwareMap.get(DcMotor.class, "odoBack"),
+            odoTicks,
+            odoWheelDiam,
             odoWidth,
             odoBackDist
         );
+
 
     }
 }

@@ -21,4 +21,8 @@ public class Context {
         return "x: "+x+", y: "+y+", theta: "+theta;
     }
 
+    public static Context multiply(Context toConvert, double factor) {
+        return new Context(toConvert.x * factor, toConvert.y * factor, toConvert.theta);
+    }
+
 }
