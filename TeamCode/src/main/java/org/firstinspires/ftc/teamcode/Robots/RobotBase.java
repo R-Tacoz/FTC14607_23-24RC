@@ -15,11 +15,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import java.util.List;
 
 /**
- * Controller class to congregate code for manipulating physical hardware on the robot
- * (e.g. movement methods, motor instances, sensor inputs)
- *
- * RobotBase is to be extended by all hardware control classes for basic functionality
- * and so u write less
+ * RobotBase is to be extended by all hardware control classes for 4-wheel Mechanum drivetrain
+ * functionality for Autonomous and Driver-Controlled purposes
  */
 @Config
 public class RobotBase {
@@ -60,10 +57,12 @@ public class RobotBase {
     public final double WHEEL_DIAMETER, WHEEL_CIRCUM; // cm
 
     /**
-     * Instantiate all variables related to the robot and the opmode, initialize imu and pid w/ parameters.
-     * @param opModeInstance The opmode (pass using "this" keyword)
+     * Instantiate all variables, initialize imu & PID
+     * @param opModeInstance Pass using "this" keyword
+     * @param drivetrainTicks
+     * @param wheelDiameter
      */
-    protected RobotBase(LinearOpMode opModeInstance, int drivetrainTicks, double wheelDiameter) {
+    public RobotBase(LinearOpMode opModeInstance, int drivetrainTicks, double wheelDiameter) {
         opMode = opModeInstance;
         telemetry = opMode.telemetry;
         hardwareMap = opMode.hardwareMap;
