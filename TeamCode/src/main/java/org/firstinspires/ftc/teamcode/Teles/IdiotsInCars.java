@@ -1,12 +1,8 @@
 package org.firstinspires.ftc.teamcode.Teles;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.vuforia.Vuforia;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.Camera;
-import org.firstinspires.ftc.teamcode.Robots.RobotBase;
 import org.firstinspires.ftc.teamcode.Robots.ToBeNamed;
 
 @TeleOp(name = "Main TeleOp", group = "main")

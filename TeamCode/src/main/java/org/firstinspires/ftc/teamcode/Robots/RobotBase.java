@@ -1,11 +1,7 @@
 package org.firstinspires.ftc.teamcode.Robots;
 
-import java.lang.Math;
-import java.util.List;
-
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.controller.PIDFController;
-
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -15,7 +11,8 @@ import com.qualcomm.robotcore.hardware.MotorControlAlgorithm;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.util.Odometry;
+
+import java.util.List;
 
 /**
  * Controller class to congregate code for manipulating physical hardware on the robot

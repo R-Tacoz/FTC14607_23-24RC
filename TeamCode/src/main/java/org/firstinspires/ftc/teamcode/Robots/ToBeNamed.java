@@ -2,9 +2,7 @@ package org.firstinspires.ftc.teamcode.Robots;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.vuforia.Vuforia;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.Camera;
 import org.firstinspires.ftc.teamcode.util.Odometry;
 import org.firstinspires.ftc.teamcode.util.ThreeWheelOdometry;
 
