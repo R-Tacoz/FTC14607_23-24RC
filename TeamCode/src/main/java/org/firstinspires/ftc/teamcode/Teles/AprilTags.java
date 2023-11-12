@@ -20,8 +20,7 @@ import java.util.List;
 @TeleOp (name = "AprilTag_Test", group = "Test")
 public class AprilTags extends LinearOpMode {
     //CV
-    private static final boolean USE_WEBCAM = true;
-    private static final int RESOLUTION_WIDTH = 640;
+    private static final int RESOLUTION_WIDTH = 640; // TODO: fiddle resolution
     private static final int RESOLUTION_HEIGHT = 480;
     private VisionPortal visionPortal;
     private AprilTagProcessor aprilTagProcessor;
@@ -30,6 +29,8 @@ public class AprilTags extends LinearOpMode {
     @Override
     public void runOpMode(){
         initAprilTag();
+        telemetry.addLine("VisionPortal Initialized.");
+        telemetry.update();
 
         waitForStart();
 
@@ -66,20 +67,13 @@ public class AprilTags extends LinearOpMode {
                 .build();
         aprilTagProcessor = new AprilTagProcessor.Builder()
                 .setTagLibrary(tagLibrary)
+                .setLensIntrinsics(594.974989979, 594.974989979, 326.694716194, 217.453950995) // from 3DF Zephyr
                 .build();
-        if(USE_WEBCAM) {
-            visionPortal = new VisionPortal.Builder()
-                    .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
-                    .addProcessor(aprilTagProcessor)
-                    .enableLiveView(false)
-                    .setCameraResolution(new Size(RESOLUTION_WIDTH, RESOLUTION_HEIGHT) )
-                    .build();
-        }else {
-            visionPortal = new VisionPortal.Builder()
-                    .setCamera(BuiltinCameraDirection.BACK)
-                    .addProcessor(aprilTagProcessor)
-                    .setCameraResolution(new Size(RESOLUTION_WIDTH, RESOLUTION_HEIGHT) )
-                    .build();
-        }
+        visionPortal = new VisionPortal.Builder()
+                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
+                .addProcessor(aprilTagProcessor)
+                .enableLiveView(false)
+                .setCameraResolution(new Size(RESOLUTION_WIDTH, RESOLUTION_HEIGHT) )
+                .build();
     }
 }
