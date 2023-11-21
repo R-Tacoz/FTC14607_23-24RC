@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDir
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Robots.ToBeNamed;
+import org.firstinspires.ftc.teamcode.util.CVHelperMethods;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
@@ -28,7 +29,8 @@ public class AprilTags extends LinearOpMode {
 
     @Override
     public void runOpMode(){
-        initAprilTag();
+        aprilTagProcessor = CVHelperMethods.getAprilTagProcessor();
+        initVisionPortal();
         telemetry.addLine("VisionPortal Initialized.");
         telemetry.update();
 
@@ -58,17 +60,7 @@ public class AprilTags extends LinearOpMode {
         visionPortal.close(); // permanent stop
     }
 
-    private void initAprilTag() {
-        //statically create & build aprilTag
-        AprilTagLibrary tagLibrary = new AprilTagLibrary.Builder()
-                .setAllowOverwrite(true)
-                .addTags(AprilTagGameDatabase.getCurrentGameTagLibrary())
-                .addTag(10, "temp", 5, DistanceUnit.CM) // TODO: vectorfield calculations
-                .build();
-        aprilTagProcessor = new AprilTagProcessor.Builder()
-                .setTagLibrary(tagLibrary)
-                .setLensIntrinsics(594.974989979, 594.974989979, 326.694716194, 217.453950995) // from 3DF Zephyr
-                .build();
+    private void initVisionPortal() {
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                 .addProcessor(aprilTagProcessor)
