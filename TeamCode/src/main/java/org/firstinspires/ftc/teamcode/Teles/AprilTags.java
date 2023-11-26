@@ -5,15 +5,10 @@ import android.util.Size;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.Robots.ToBeNamed;
-import org.firstinspires.ftc.teamcode.util.CVHelperMethods;
+import org.firstinspires.ftc.teamcode.util.VisionUtil;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
-import org.firstinspires.ftc.vision.apriltag.AprilTagLibrary;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.List;
@@ -29,7 +24,7 @@ public class AprilTags extends LinearOpMode {
 
     @Override
     public void runOpMode(){
-        aprilTagProcessor = CVHelperMethods.getAprilTagProcessor();
+        aprilTagProcessor = VisionUtil.getAprilTagProcessor();
         initVisionPortal();
         telemetry.addLine("VisionPortal Initialized.");
         telemetry.update();

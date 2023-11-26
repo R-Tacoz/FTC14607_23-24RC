@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode.util;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
 import org.firstinspires.ftc.vision.apriltag.AprilTagLibrary;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
-public class CVHelperMethods {
+public final class VisionUtil {
+
+    private VisionUtil() {}
 
     public static AprilTagProcessor getAprilTagProcessor(){
         //statically create & build aprilTag
@@ -21,6 +22,5 @@ public class CVHelperMethods {
                 .build();
         return aprilTagProcessor;
     }
-
 
 }
