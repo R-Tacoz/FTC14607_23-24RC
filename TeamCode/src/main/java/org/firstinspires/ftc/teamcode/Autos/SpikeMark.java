@@ -8,7 +8,7 @@ public class SpikeMark extends LinearOpMode {
     Octonaut robot;
     @Override
     public void runOpMode() throws InterruptedException {
-        robot = new Octonaut(this, -1,-1, -1,-1,-1,-1);
+        robot = new Octonaut(hardwareMap,this, -1,-1, -1,-1,-1,-1);
 
 
         // -----------------------------------------------------------------------------------------

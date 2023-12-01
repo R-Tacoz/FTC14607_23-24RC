@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Robots;
 
+import androidx.annotation.NonNull;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.controller.PIDFController;
 import com.qualcomm.hardware.bosch.BNO055IMU;
@@ -62,7 +64,7 @@ public class RobotBase {
      * @param drivetrainTicks
      * @param wheelDiameter
      */
-    public RobotBase(LinearOpMode opModeInstance, int drivetrainTicks, double wheelDiameter) {
+    public RobotBase(@NonNull HardwareMap hardwareMap, LinearOpMode opModeInstance, int drivetrainTicks, double wheelDiameter) {
         opMode = opModeInstance;
         telemetry = opMode.telemetry;
         hardwareMap = opMode.hardwareMap;
