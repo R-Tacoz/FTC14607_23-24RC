@@ -2,15 +2,17 @@ package org.firstinspires.ftc.teamcode.Robots;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.util.Odometry;
 import org.firstinspires.ftc.teamcode.util.ThreeWheelOdometry;
 
-public class ToBeNamed extends RobotBase {
+public class Octonaut extends RobotBase {
     public Odometry odometry;
     public int odoTicks;
+    public Servo tester;
 
-    public ToBeNamed(
+    public Octonaut(
         LinearOpMode opModeInstance,
         int drivetrainTicks,
         int wheelDiameter,
@@ -30,6 +32,8 @@ public class ToBeNamed extends RobotBase {
             odoBackDist
         );
 
-
+    }
+    public void testingServo() {
+        this.tester.setPosition(0);
     }
 }

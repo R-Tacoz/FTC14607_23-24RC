@@ -2,13 +2,13 @@ package org.firstinspires.ftc.teamcode.Autos;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Robots.ToBeNamed;
+import org.firstinspires.ftc.teamcode.Robots.Octonaut;
 
 public class SpikeMark extends LinearOpMode {
-    ToBeNamed robot;
+    Octonaut robot;
     @Override
     public void runOpMode() throws InterruptedException {
-        robot = new ToBeNamed(this, -1,-1, -1,-1,-1,-1);
+        robot = new Octonaut(this, -1,-1, -1,-1,-1,-1);
 
 
         // -----------------------------------------------------------------------------------------
