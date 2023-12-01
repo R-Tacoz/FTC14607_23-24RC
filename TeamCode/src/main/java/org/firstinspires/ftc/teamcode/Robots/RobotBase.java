@@ -72,19 +72,19 @@ public class RobotBase {
         for(LynxModule hub : hubs)
             hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
 
-        //drivetrain
-        frontRight = hardwareMap.get(DcMotorEx.class, "FrontRight");
-        frontLeft = hardwareMap.get(DcMotorEx.class, "FrontLeft");
-        backRight = hardwareMap.get(DcMotorEx.class, "BackRight");
-        backLeft = hardwareMap.get(DcMotorEx.class, "BackLeft");
-        frontLeft.setDirection(DcMotorEx.Direction.REVERSE);
-        backLeft.setDirection(DcMotorEx.Direction.REVERSE);
-        drivetrain = new DcMotorEx[]{frontRight, frontLeft, backRight, backLeft};
-        for (DcMotorEx motor : drivetrain) {
-//            motor.setPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION, internalDrivePosPIDF);
-//            motor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, internalDriveVeloPIDF);
-            motor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        }
+//        //drivetrain
+//        frontRight = hardwareMap.get(DcMotorEx.class, "FrontRight");
+//        frontLeft = hardwareMap.get(DcMotorEx.class, "FrontLeft");
+//        backRight = hardwareMap.get(DcMotorEx.class, "BackRight");
+//        backLeft = hardwareMap.get(DcMotorEx.class, "BackLeft");
+//        frontLeft.setDirection(DcMotorEx.Direction.REVERSE);
+//        backLeft.setDirection(DcMotorEx.Direction.REVERSE);
+//        drivetrain = new DcMotorEx[]{frontRight, frontLeft, backRight, backLeft};
+//        for (DcMotorEx motor : drivetrain) {
+////            motor.setPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION, internalDrivePosPIDF);
+////            motor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, internalDriveVeloPIDF);
+//            motor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+//        }
 
         strafePIDFs = new PIDFController[]{FRStrafePID, FLStrafePID, BRStrafePID, BLStrafePID};
         for(PIDFController pid : strafePIDFs) pid.setTolerance(1);
@@ -106,16 +106,16 @@ public class RobotBase {
 //        odoLeft = hardwareMap.get(DcMotorEx.class, "odoLeft");
 //        odoBack = hardwareMap.get(DcMotorEx.class, "odoBack");
 
-        //imu
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        BNO055IMU.Parameters imuparams = new BNO055IMU.Parameters();
-        imuparams.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        imuparams.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        imuparams.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        imuparams.loggingEnabled = true;
-        imuparams.loggingTag = "IMU";
-        imu.initialize(imuparams);
-
+//        //imu
+//        imu = hardwareMap.get(BNO055IMU.class, "imu");
+//        BNO055IMU.Parameters imuparams = new BNO055IMU.Parameters();
+//        imuparams.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+//        imuparams.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+//        imuparams.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+//        imuparams.loggingEnabled = true;
+//        imuparams.loggingTag = "IMU";
+//        imu.initialize(imuparams);
+//
         // init constants
         this.DRIVETRAIN_TICKS = drivetrainTicks;
         this.WHEEL_DIAMETER = wheelDiameter;

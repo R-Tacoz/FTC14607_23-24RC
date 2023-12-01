@@ -24,8 +24,12 @@ public class IdiotsInCars extends LinearOpMode {
     Octonaut robot;
 
     //test servo (11/30/2023)
-    public void setClaw(@NonNull Gamepad gamepad) {
-        robot.testingServo();
+    private double servoPos = 0.666;
+    public void moveServo(@NonNull Gamepad gamepad) {
+        if (gamepad.left_bumper && gamepad.right_bumper) servoPos = 0.666; // straighten arm
+        else if (gamepad.right_bumper) servoPos += 0.01;
+        else if (gamepad.left_bumper) servoPos -= 0.01;
+        robot.setServo(servoPos);
     }
 
     public void runOpMode() {
@@ -34,9 +38,11 @@ public class IdiotsInCars extends LinearOpMode {
         waitForStart();
         while(opModeIsActive())
         {
-            telemetry.addData("imu", robot.imu.getAngularOrientation());
-            telemetry.addData("context", robot.odometry.getContext());
+//            telemetry.addData("imu", robot.imu.getAngularOrientation());
+//            telemetry.addData("context", robot.odometry.getContext());
             telemetry.update();
+            moveServo(gamepad1);
+            telemetry.addData("Swivel position", servoPos);
         }
     }
 }
