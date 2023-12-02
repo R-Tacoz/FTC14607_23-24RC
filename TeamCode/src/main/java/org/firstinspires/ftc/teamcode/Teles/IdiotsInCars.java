@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.Range;
 
@@ -113,14 +115,23 @@ public class IdiotsInCars extends LinearOpMode {
                 robot.setSlideVelo(velo);
             }
             // a,b,x,y, preset positions or hold current position
-        } else {
+        }
+        else if(gamepad.a){
+            robot.setSlidePos(300);
+        }
+        else if(gamepad.b){
+            robot.setSlidePos(700);
+        }
+        else if(gamepad.y){
+            robot.setSlidePos(1100);
+        }
+        else {
             if (movingSlide) {
                 movingSlide = false;
                 lastSlidePos = slidePos + 5*slideDirection;
             }
             // stop moving to ground if reached it
             if (slidePos < 20) movingToGround = false;
-
         }
         return slidePos;
     }
@@ -129,10 +140,14 @@ public class IdiotsInCars extends LinearOpMode {
     private double servoPow = 0.5;
     private double servoPos = 0.666;
     public void moveClaw(@NonNull Gamepad gamepad) {
-        if (gamepad.left_bumper && gamepad.right_bumper) servoPow = 0.5;
-        else if (gamepad.right_bumper) servoPow = 1;
-        else if (gamepad.left_bumper) servoPow = 0;
-        Octonaut.tester.setPower(servoPow);
+        double setServoPow = gamepad.left_bumper || gamepad.right_bumper ? servoPow : 0;
+
+        if(gamepad.left_bumper)
+            Octonaut.clawServo.setDirection(CRServo.Direction.FORWARD);
+        else if(gamepad.right_bumper)
+            Octonaut.clawServo.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        Octonaut.clawServo.setPower(setServoPow);
     }
 
     public void runOpMode() {

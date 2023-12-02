@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.util.ThreeWheelOdometry;
 public class Octonaut extends RobotBase {
     public Odometry odometry;
     public int odoTicks;
-    public static CRServo tester;
+    public static CRServo clawServo;
     public Servo tester2;
 
     public DcMotorEx rightSlide, leftSlide;
@@ -27,7 +27,7 @@ public class Octonaut extends RobotBase {
     public PIDFController slidepidfcontroller;
 
     public final static int SLIDEBOTTOM = 0;
-    public final static int SLIDETOP = 960;
+    public final static int SLIDETOP = 1200;
 
     public Octonaut(@NonNull HardwareMap hardwareMap,
         LinearOpMode opModeInstance,
@@ -50,7 +50,7 @@ public class Octonaut extends RobotBase {
 //        );
 
         // claw
-        tester = hardwareMap.get(CRServo.class, "tester");
+        clawServo = hardwareMap.get(CRServo.class, "tester");
 
         //slides
         rightSlide = hardwareMap.get(DcMotorEx.class, "RightSlide");
