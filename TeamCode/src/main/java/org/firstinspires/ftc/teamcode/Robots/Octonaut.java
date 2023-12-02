@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.util.ThreeWheelOdometry;
 public class Octonaut extends RobotBase {
     public Odometry odometry;
     public int odoTicks;
-    public DcMotorSimple tester;
+    public CRServo tester;
     public Servo tester2;
 
     public Octonaut(@NonNull HardwareMap hardwareMap,
@@ -39,7 +39,7 @@ public class Octonaut extends RobotBase {
 //            odoBackDist
 //        );
 
-        tester = hardwareMap.get(DcMotorSimple.class, "tester");
+        tester = hardwareMap.get(CRServo.class, "tester");
         tester2 = hardwareMap.get(Servo.class, "tester2");
 
     }
