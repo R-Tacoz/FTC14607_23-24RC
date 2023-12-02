@@ -30,9 +30,9 @@ public class IdiotsInCars extends LinearOpMode {
         if (gamepad.left_bumper && gamepad.right_bumper) servoPow = 0.5;
         else if (gamepad.right_bumper) servoPow += 0.01;
         else if (gamepad.left_bumper) servoPow -= 0.01;
-        robot.setClawPos(servoPow);
+        robot.setClawPower(servoPow);
         if (gamepad.b) {
-            robot.setClawPower(servoPos);
+            robot.setClawPos(servoPos);
         }
     }
 
