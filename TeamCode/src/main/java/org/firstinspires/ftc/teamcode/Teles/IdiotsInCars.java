@@ -148,10 +148,13 @@ public class IdiotsInCars extends LinearOpMode {
 //            telemetry.addData("context", robot.odometry.getContext());
             float[] driveTrainPowers = moveDriveTrain(gamepad1, speedFactor);
             moveClaw(gamepad1);
+            int slidePos = moveSlides(gamepad2);
 
             telemetry.addData("Speed factor", speedFactor);
             telemetry.addData("Drivetrain powers", Arrays.toString(driveTrainPowers));
             telemetry.addData("Servo power: ", servoPow);
+            telemetry.addData("Slide position", slidePos);
+            telemetry.addData("Slide speed", fastSlides);
             telemetry.update();
         }
     }
