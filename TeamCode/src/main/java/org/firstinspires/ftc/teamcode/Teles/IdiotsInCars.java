@@ -147,7 +147,7 @@ public class IdiotsInCars extends LinearOpMode {
         if(gamepad.left_bumper)
             Octonaut.clawServo.setDirection(CRServo.Direction.FORWARD);
         else if(gamepad.right_bumper)
-            Octonaut.clawServo.setDirection(DcMotorSimple.Direction.REVERSE);
+            Octonaut.clawServo.setDirection(CRServo.Direction.REVERSE);
 
         Octonaut.clawServo.setPower(setServoPow);
     }
