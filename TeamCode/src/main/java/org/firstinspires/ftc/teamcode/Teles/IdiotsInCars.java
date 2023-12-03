@@ -145,34 +145,43 @@ public class IdiotsInCars extends LinearOpMode {
 
         telemetry.addLine("Is it working");
 
-        if(gamepad.left_bumper)
-            Octonaut.clawServo.setDirection(CRServo.Direction.FORWARD);
-        else if(gamepad.right_bumper)
-            Octonaut.clawServo.setDirection(CRServo.Direction.REVERSE);
+        if(gamepad.left_bumper) {
+            robot.outtake();
+            setServoPow = 0.2;
+        }
+        else if(gamepad.right_bumper) robot.intake();
+        robot.setClawPower(setServoPow);
+    }
 
-        Octonaut.clawServo.setPower(setServoPow);
+    private double liftPos = 0;
+    public void moveLift(@NonNull Gamepad gamepad) {
+        liftPos = robot.lift.getPosition();
+        if (gamepad.right_trigger > 0) robot.setLift(liftPos + 0.02);
+        else if (gamepad.left_trigger > 0) robot.setLift(liftPos - 0.02);
     }
 
     public void runOpMode() {
         robot = new Octonaut(hardwareMap,this, 0,0, 8192, 5, 30, 0);
         float speedFactor = fastSpeed;
 
-//        for(DcMotorEx m:robot.drivetrain) m.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        for(DcMotorEx m:robot.drivetrain) m.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         waitForStart();
         while(opModeIsActive())
         {
-//            telemetry.addData("imu", robot.imu.getAngularOrientation());
-////            telemetry.addData("context", robot.odometry.getContext());
-//            float[] driveTrainPowers = moveDriveTrain(gamepad1, speedFactor);
+            telemetry.addData("imu", robot.imu.getAngularOrientation());
+//            telemetry.addData("context", robot.odometry.getContext());
+            float[] driveTrainPowers = moveDriveTrain(gamepad1, speedFactor);
             moveClaw(gamepad2);
-//            int slidePos = moveSlides(gamepad2);
+            int slidePos = moveSlides(gamepad2);
+            moveLift(gamepad2);
 
             telemetry.addData("Speed factor", speedFactor);
-//            telemetry.addData("Drivetrain powers", Arrays.toString(driveTrainPowers));
+            telemetry.addData("Drivetrain powers", Arrays.toString(driveTrainPowers));
             telemetry.addData("Servo power: ", servoPow);
-//            telemetry.addData("Slide position", slidePos);
+            telemetry.addData("Slide position", slidePos);
             telemetry.addData("Slide speed", fastSlides);
+            telemetry.addData("Lift position", liftPos);
             telemetry.update();
         }
     }

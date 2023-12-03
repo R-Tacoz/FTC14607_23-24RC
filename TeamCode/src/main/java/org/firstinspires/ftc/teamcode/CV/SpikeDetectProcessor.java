@@ -25,14 +25,14 @@ public class SpikeDetectProcessor implements VisionProcessor {
     private double detectedPercentage = 0.00;
     private Mat currentInput = new Mat();
 
+//    private final Scalar
+//            lower_red_bounds = new Scalar(155, 55, 55),
+//            upper_red_bounds = new Scalar(179, 225, 255);
     private final Scalar
-            lower_purple_bounds = new Scalar(100, 0, 100),
+            lower_purple_bounds = new Scalar(100,0,100),
             upper_purple_bounds = new Scalar(255, 100, 255);
 
     private double leftPercent, centerPercent, rightPercent;
-
-    private Point middlefirstbound = new Point(UtilityCameraFrameCapture.RESOLUTION_WIDTH / (double) 3, 0),
-    middlesecondbound = new Point(UtilityCameraFrameCapture.RESOLUTION_WIDTH * 2 / (double) 3,UtilityCameraFrameCapture.RESOLUTION_HEIGHT);
 
     private Mat blurredMat = new Mat();
     private Mat leftMat = new Mat(), centerMat = new Mat(), rightMat = new Mat();
@@ -60,7 +60,7 @@ public class SpikeDetectProcessor implements VisionProcessor {
 
     @Override
     public Mat processFrame(Mat input, long captureTimeNanos) {
-//        Imgproc.cvtColor(input, input, Imgproc.COLOR_RGB2HSV);
+        Imgproc.cvtColor(input, input, Imgproc.COLOR_BGR2HSV);
         Imgproc.blur(input, blurredMat, new Size(UtilityCameraFrameCapture.RESOLUTION_WIDTH, UtilityCameraFrameCapture.RESOLUTION_HEIGHT));
         blurredMat = blurredMat.submat(fullBounds);
 
@@ -72,9 +72,10 @@ public class SpikeDetectProcessor implements VisionProcessor {
         Core.inRange(centerMat, lower_purple_bounds, upper_purple_bounds, centerMatPurple);
         Core.inRange(rightMat, lower_purple_bounds, upper_purple_bounds, rightMatPurple);
 
-        leftPercent = Core.countNonZero(leftMatPurple);
-        centerPercent = Core.countNonZero(centerMatPurple);
-        rightPercent = Core.countNonZero(rightMatPurple);
+        double total_pixels = 640*480;
+        leftPercent = Core.countNonZero(leftMatPurple) / total_pixels;
+        centerPercent = Core.countNonZero(centerMatPurple) / total_pixels;
+        rightPercent = Core.countNonZero(rightMatPurple) / total_pixels;
 
         double maxPercent = leftPercent == 0 && centerPercent == 0 && rightPercent == 0 ? -1 : Math.max(leftPercent, Math.max(centerPercent, rightPercent));
 
@@ -82,6 +83,11 @@ public class SpikeDetectProcessor implements VisionProcessor {
 
         if(maxPercent == leftPercent){
             detectedPosition = SpikePosition.LEFT;
+            Imgproc.rectangle(
+                    input,
+                    new Point(0,0),
+                    new Point(UtilityCameraFrameCapture.RESOLUTION_WIDTH / 3, UtilityCameraFrameCapture.RESOLUTION_HEIGHT),
+                    lower_purple_bounds);
         }
         else if(maxPercent == centerPercent){
             detectedPosition = SpikePosition.CENTER;

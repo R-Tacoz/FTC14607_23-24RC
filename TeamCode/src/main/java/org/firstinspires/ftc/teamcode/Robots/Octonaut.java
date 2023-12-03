@@ -18,16 +18,17 @@ import org.firstinspires.ftc.teamcode.util.ThreeWheelOdometry;
 public class Octonaut extends RobotBase {
     public Odometry odometry;
     public int odoTicks;
-    public static CRServo clawServo;
+    public CRServo clawServo;
+    public Servo lift;
 
     public DcMotorEx rightSlide, leftSlide;
     public DcMotorEx[] slides;
     // controllers
     public PIDFController slidepidfcontroller;
 
-    public final static int SLIDEBOTTOM = 5;
-    public final static int SLIDETOP = 1600;
-    public final static int GROUND = 5;
+    public final static int SLIDEBOTTOM = 40;
+    public final static int SLIDETOP = 960;
+    public final static int GROUND = 40;
 
     public Octonaut(@NonNull HardwareMap hardwareMap,
         LinearOpMode opModeInstance,
@@ -49,23 +50,24 @@ public class Octonaut extends RobotBase {
 //            odoBackDist
 //        );
 
-//        // claw
-        clawServo = hardwareMap.get(CRServo.class, "tester");
+        // claw
+        clawServo = hardwareMap.get(CRServo.class, "claw");
+        lift = hardwareMap.get(Servo.class, "lift");
 
-//        //slides
-//        rightSlide = hardwareMap.get(DcMotorEx.class, "RightSlide");
-//        leftSlide = hardwareMap.get(DcMotorEx.class, "LeftSlide");
-//        slides = new DcMotorEx[]{rightSlide, leftSlide};
-//        for(DcMotorEx m: slides) {
-//            m.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-//            m.setVelocityPIDFCoefficients(15.0, 2.0, 0.0, 0);
-//            m.setPositionPIDFCoefficients(10.0);
-//        }
-//        resetSlideEncoders();
-//
-//        slidepidfcontroller = new PIDFController(50, 0.05, 0, 0);
-//        //slidepidfcontroller.setIntegrationBounds(-5, 5);
-//        slidepidfcontroller.setTolerance(3);
+        //slides
+        rightSlide = hardwareMap.get(DcMotorEx.class, "RightSlide");
+        leftSlide = hardwareMap.get(DcMotorEx.class, "LeftSlide");
+        slides = new DcMotorEx[]{rightSlide, leftSlide};
+        for(DcMotorEx m: slides) {
+            m.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+            m.setVelocityPIDFCoefficients(15.0, 2.0, 0.0, 0);
+            m.setPositionPIDFCoefficients(10.0);
+        }
+        resetSlideEncoders();
+
+        slidepidfcontroller = new PIDFController(50, 0.05, 0, 0);
+        //slidepidfcontroller.setIntegrationBounds(-5, 5);
+        slidepidfcontroller.setTolerance(3);
     }
     // ------------------------------------- MISC METHODS ------------------------------------------
 
@@ -82,8 +84,23 @@ public class Octonaut extends RobotBase {
         }
     }
 
-    // --------------------------------- MOVEMENT METHODS ------------------------------------------
+    // --------------------------------- CLAW METHODS ------------------------------------------
+    public void outtake(){
+        clawServo.setDirection(CRServo.Direction.FORWARD);
+    }
 
+    public void intake(){
+        clawServo.setDirection(CRServo.Direction.REVERSE);
+    }
+
+    public void setClawPower(double power){
+        clawServo.setPower(power);
+    }
+
+    public void setLift(double pos) {
+        double position = Range.clip(pos, 0, 1);
+        lift.setPosition(position);
+    }
 
     // ------------------------------------ INTERACTOR METHODS -------------------------------------
 
