@@ -32,15 +32,23 @@ public class SpikeDetectProcessor implements VisionProcessor {
 
     private double leftPercent, centerPercent, rightPercent;
 
-    private Point middlefirstbound = new Point(UtilityCameraFrameCapture.RESOLUTION_WIDTH / (double) 3,UtilityCameraFrameCapture.RESOLUTION_HEIGHT),
+    private Point middlefirstbound = new Point(UtilityCameraFrameCapture.RESOLUTION_WIDTH / (double) 3, 0),
     middlesecondbound = new Point(UtilityCameraFrameCapture.RESOLUTION_WIDTH * 2 / (double) 3,UtilityCameraFrameCapture.RESOLUTION_HEIGHT);
 
     private Mat blurredMat = new Mat();
     private Mat leftMat = new Mat(), centerMat = new Mat(), rightMat = new Mat();
     private Mat leftMatPurple = new Mat(), centerMatPurple = new Mat(), rightMatPurple = new Mat();
-    private Rect leftBounds = new Rect(new Point(0,0), middlefirstbound),
-    centerBounds = new Rect(middlefirstbound, middlesecondbound),
-    rightBounds = new Rect(middlesecondbound, new Point(UtilityCameraFrameCapture.RESOLUTION_WIDTH,UtilityCameraFrameCapture.RESOLUTION_HEIGHT));
+    private Rect leftBounds = new Rect(
+            new Point(0,0),
+            new Point(UtilityCameraFrameCapture.RESOLUTION_WIDTH / 3, UtilityCameraFrameCapture.RESOLUTION_HEIGHT )
+            ),
+    centerBounds = new Rect(
+            new Point(UtilityCameraFrameCapture.RESOLUTION_WIDTH / 3, 0),
+            new Point(UtilityCameraFrameCapture.RESOLUTION_WIDTH * 2 / 3 , UtilityCameraFrameCapture.RESOLUTION_HEIGHT)
+            ),
+    rightBounds = new Rect(
+            new Point(UtilityCameraFrameCapture.RESOLUTION_WIDTH * 2 / 3, 0),
+            new Point(UtilityCameraFrameCapture.RESOLUTION_WIDTH,UtilityCameraFrameCapture.RESOLUTION_HEIGHT));
 
     private Rect fullBounds = new Rect(
             new Point(0,0),
