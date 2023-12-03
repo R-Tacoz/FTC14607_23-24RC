@@ -116,28 +116,29 @@ public class IdiotsInCars extends LinearOpMode {
             }
             // a,b,x,y, preset positions or hold current position
         }
-        else if(gamepad.a){
-            robot.setSlidePos(300);
-        }
-        else if(gamepad.b){
-            robot.setSlidePos(700);
-        }
-        else if(gamepad.y){
-            robot.setSlidePos(960);
-        }
         else {
             if (movingSlide) {
                 movingSlide = false;
                 lastSlidePos = slidePos + 5*slideDirection;
             }
+            int setPos = lastSlidePos;
+            slideDirection = 0;
+            movingSlide = true;
+            if (gamepad.x) {setPos = 300;} // raise lift when setting to pole height
+            else if (gamepad.y) {setPos = 700;}
+            else if (gamepad.b) {setPos = 960;}
+            else if (gamepad.a || movingToGround) {setPos = Octonaut.GROUND; }
+            else {movingSlide = false; }
             // stop moving to ground if reached it
             if (slidePos < 20) movingToGround = false;
+            setPos = Range.clip(setPos, Octonaut.SLIDEBOTTOM, Octonaut.SLIDETOP);
+            robot.setSlidePos(setPos);
         }
         return slidePos;
     }
 
     //test servo (11/30/2023)
-    private double servoPow = 0.5;
+    private double servoPow = 1;
     private double servoPos = 0.666;
     public void moveClaw(@NonNull Gamepad gamepad) {
         double setServoPow = gamepad.left_bumper || gamepad.right_bumper ? servoPow : 0;
@@ -156,21 +157,21 @@ public class IdiotsInCars extends LinearOpMode {
         robot = new Octonaut(hardwareMap,this, 0,0, 8192, 5, 30, 0);
         float speedFactor = fastSpeed;
 
-        for(DcMotorEx m:robot.drivetrain) m.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        for(DcMotorEx m:robot.drivetrain) m.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         waitForStart();
         while(opModeIsActive())
         {
-            telemetry.addData("imu", robot.imu.getAngularOrientation());
-//            telemetry.addData("context", robot.odometry.getContext());
-            float[] driveTrainPowers = moveDriveTrain(gamepad1, speedFactor);
+//            telemetry.addData("imu", robot.imu.getAngularOrientation());
+////            telemetry.addData("context", robot.odometry.getContext());
+//            float[] driveTrainPowers = moveDriveTrain(gamepad1, speedFactor);
             moveClaw(gamepad2);
-            int slidePos = moveSlides(gamepad2);
+//            int slidePos = moveSlides(gamepad2);
 
             telemetry.addData("Speed factor", speedFactor);
-            telemetry.addData("Drivetrain powers", Arrays.toString(driveTrainPowers));
+//            telemetry.addData("Drivetrain powers", Arrays.toString(driveTrainPowers));
             telemetry.addData("Servo power: ", servoPow);
-            telemetry.addData("Slide position", slidePos);
+//            telemetry.addData("Slide position", slidePos);
             telemetry.addData("Slide speed", fastSlides);
             telemetry.update();
         }
