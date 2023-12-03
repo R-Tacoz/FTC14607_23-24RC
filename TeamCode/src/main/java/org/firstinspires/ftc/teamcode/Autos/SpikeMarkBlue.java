@@ -20,7 +20,7 @@ public class SpikeMarkBlue extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        robot = new Octonaut(hardwareMap,this, 0,10, 8192, 5, 30, 0);
+        robot = new Octonaut(hardwareMap,this, 145,9.6, 8192, 5, 30, 0);
 
         SpikeDetectProcessorBlue spikeProcessor = new SpikeDetectProcessorBlue();
 

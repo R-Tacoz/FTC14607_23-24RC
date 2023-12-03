@@ -33,7 +33,7 @@ public class Octonaut extends RobotBase {
     public Octonaut(@NonNull HardwareMap hardwareMap,
         LinearOpMode opModeInstance,
         int drivetrainTicks,
-        int wheelDiameter,
+        double wheelDiameter,
         int odoTicks,
         float odoWheelDiam,
         float odoWidth,
