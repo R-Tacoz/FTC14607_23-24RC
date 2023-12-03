@@ -156,21 +156,21 @@ public class IdiotsInCars extends LinearOpMode {
         robot = new Octonaut(hardwareMap,this, 0,0, 8192, 5, 30, 0);
         float speedFactor = fastSpeed;
 
-        for(DcMotorEx m:robot.drivetrain) m.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        for(DcMotorEx m:robot.drivetrain) m.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         waitForStart();
         while(opModeIsActive())
         {
-            telemetry.addData("imu", robot.imu.getAngularOrientation());
+//            telemetry.addData("imu", robot.imu.getAngularOrientation());
 //            telemetry.addData("context", robot.odometry.getContext());
-            float[] driveTrainPowers = moveDriveTrain(gamepad1, speedFactor);
+//            float[] driveTrainPowers = moveDriveTrain(gamepad1, speedFactor);
             moveClaw(gamepad2);
-            int slidePos = moveSlides(gamepad2);
+//            int slidePos = moveSlides(gamepad2);
 
             telemetry.addData("Speed factor", speedFactor);
-            telemetry.addData("Drivetrain powers", Arrays.toString(driveTrainPowers));
+//            telemetry.addData("Drivetrain powers", Arrays.toString(driveTrainPowers));
             telemetry.addData("Servo power: ", servoPow);
-            telemetry.addData("Slide position", slidePos);
+//            telemetry.addData("Slide position", slidePos);
             telemetry.addData("Slide speed", fastSlides);
             telemetry.update();
         }

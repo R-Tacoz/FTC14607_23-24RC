@@ -49,23 +49,23 @@ public class Octonaut extends RobotBase {
 //            odoBackDist
 //        );
 
-        // claw
+//        // claw
         clawServo = hardwareMap.get(CRServo.class, "tester");
-
-        //slides
-        rightSlide = hardwareMap.get(DcMotorEx.class, "RightSlide");
-        leftSlide = hardwareMap.get(DcMotorEx.class, "LeftSlide");
-        slides = new DcMotorEx[]{rightSlide, leftSlide};
-        for(DcMotorEx m: slides) {
-            m.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-            m.setVelocityPIDFCoefficients(15.0, 2.0, 0.0, 0);
-            m.setPositionPIDFCoefficients(10.0);
-        }
-        resetSlideEncoders();
-
-        slidepidfcontroller = new PIDFController(50, 0.05, 0, 0);
-        //slidepidfcontroller.setIntegrationBounds(-5, 5);
-        slidepidfcontroller.setTolerance(3);
+//
+//        //slides
+//        rightSlide = hardwareMap.get(DcMotorEx.class, "RightSlide");
+//        leftSlide = hardwareMap.get(DcMotorEx.class, "LeftSlide");
+//        slides = new DcMotorEx[]{rightSlide, leftSlide};
+//        for(DcMotorEx m: slides) {
+//            m.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+//            m.setVelocityPIDFCoefficients(15.0, 2.0, 0.0, 0);
+//            m.setPositionPIDFCoefficients(10.0);
+//        }
+//        resetSlideEncoders();
+//
+//        slidepidfcontroller = new PIDFController(50, 0.05, 0, 0);
+//        //slidepidfcontroller.setIntegrationBounds(-5, 5);
+//        slidepidfcontroller.setTolerance(3);
     }
     // ------------------------------------- MISC METHODS ------------------------------------------
 
