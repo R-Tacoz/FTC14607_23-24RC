@@ -125,4 +125,5 @@ public class SpikeDetectProcessor implements VisionProcessor {
     public Mat getLeftMat(){ return leftMat;    }
     public Mat getCenterMat(){ return centerMat; }
     public Mat getRightMat(){ return rightMat; }
+    public Mat getBlurredMat(){ return blurredMat;}
 }

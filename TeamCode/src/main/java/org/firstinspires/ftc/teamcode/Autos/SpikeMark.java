@@ -48,6 +48,7 @@ public class SpikeMark extends LinearOpMode {
             telemetry.addData("leftmat", spikeProcessor.getLeftMat());
             telemetry.addData("centermat", spikeProcessor.getCenterMat());
             telemetry.addData("rightmat", spikeProcessor.getRightMat());
+            telemetry.addData("blurredmat", spikeProcessor.getBlurredMat());
             telemetry.update();
         }
 
