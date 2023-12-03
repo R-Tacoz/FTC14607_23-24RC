@@ -42,74 +42,38 @@ public class SpikeMark extends LinearOpMode {
 
         waitForStart();
 
-        while(opModeIsActive()){
-            SpikeDetectProcessor.SpikePosition spike = spikeProcessor.getSpikePosition();
-            double percent = spikeProcessor.getSpikePercent();
+        SpikeDetectProcessor.SpikePosition spike = SpikeDetectProcessor.SpikePosition.NONE;
 
-            telemetry.addData("Detected position", spike);
-            telemetry.addData("Detected Percentage", percent);
-            telemetry.addLine(spikeProcessor.getCurrentInput().toString());
-            telemetry.addData("leftmat ele" , spikeProcessor.getLeftMat());
-            telemetry.addData("leftmatpurple", spikeProcessor.getLeftMatPurple());
-            telemetry.addData("leftmat", spikeProcessor.getLeftMat());
-            telemetry.update();
-
-            //zones
-            int zone = 0;
-            if (spike == SpikeDetectProcessor.SpikePosition.LEFT) {
-                zone = 1;
-            } else if (spike == SpikeDetectProcessor.SpikePosition.CENTER) {
-                zone = 2;
-            } else {
-                zone = 3;
-            }
-            visionportal.close();
-
-            // go until spike mark panel
-            robot.forward(56, 200);
-            sleep(500);
-
-            //diff tasks depending on zone
-            switch(zone) {
-                case 2: // center
-                    break;
-                case 3:
-                    robot.rotate(-90);
-                    break;
-                case 1:
-                    robot.rotate(90);
-                    break;
-            }
-
-            // pray we got the right spot
-            robot.outtake();
-            robot.setClawPower(0.2);
-            sleep(1000);
-
-            // turn to the boards
-            switch(zone) {
-                case 2: // center
-                    robot.rotate(-90);
-                    break;
-                case 3:
-                    break;
-                case 1:
-                    robot.rotate(180);
-                    break;
-            }
-
-            //move to board
-            robot.forward(130, 200);
-
-            //at board and want to deposit
-            robot.setSlidePos(300);
-            sleep(500);
-            robot.outtake();
-            robot.setClawPower(0.2);
-            sleep(1000);
-            robot.setSlidePos(Octonaut.GROUND);
-            sleep(1000);
-            break;
+        while(spike == SpikeDetectProcessor.SpikePosition.NONE){
+            spike = spikeProcessor.getSpikePosition();
         }
+
+        visionportal.close();
+
+        telemetry.addData("Final Spike", spike);
+        telemetry.update();
+
+        // go until spike mark panel
+        robot.forward(56, 200);
+        sleep(500);
+
+        if(spike == SpikeDetectProcessor.SpikePosition.LEFT){
+            robot.rotate(-90);
+        }
+        else if(spike == SpikeDetectProcessor.SpikePosition.RIGHT){
+            robot.rotate(90);
+        }
+
+        //move to board
+        robot.forward(130, 200);
+
+        //at board and want to deposit
+        robot.setSlidePos(300);
+        sleep(500);
+        robot.outtake();
+        robot.setClawPower(0.2);
+        sleep(1000);
+        robot.setSlidePos(Octonaut.GROUND);
+        sleep(1000);
     }
 }
