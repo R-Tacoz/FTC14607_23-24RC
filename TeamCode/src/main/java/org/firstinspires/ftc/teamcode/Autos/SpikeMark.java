@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.CV.SpikeDetectPipeline;
+import org.firstinspires.ftc.teamcode.util.UtilityCameraFrameCapture;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -33,7 +34,7 @@ public class SpikeMark extends LinearOpMode {
             @Override
             public void onOpened()
             {
-                webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+                webcam.startStreaming(UtilityCameraFrameCapture.RESOLUTION_WIDTH, UtilityCameraFrameCapture.RESOLUTION_HEIGHT, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
@@ -45,8 +46,13 @@ public class SpikeMark extends LinearOpMode {
         // -----------------------------------------------------------------------------------------
         waitForStart();
 
+
+
         SpikeDetectPipeline.SpikePosition spike = pipeline.getSpikePosition();
+        double percent = pipeline.getSpikePercent();
         telemetry.addData("Detected position", spike);
+        telemetry.addData("Detected Percentage", percent);
+        telemetry.addLine(pipeline.getCurrentInput().toString());
         telemetry.update();
         sleep(  1000);
 
@@ -61,5 +67,8 @@ public class SpikeMark extends LinearOpMode {
         webcam.stopStreaming();
         webcam.stopRecordingPipeline();
         //Do moving stuff
+
+        while(opModeIsActive()){}
+
     }
 }

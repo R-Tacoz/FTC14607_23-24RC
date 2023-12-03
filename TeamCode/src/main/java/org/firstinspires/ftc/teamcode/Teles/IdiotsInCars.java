@@ -142,6 +142,8 @@ public class IdiotsInCars extends LinearOpMode {
     public void moveClaw(@NonNull Gamepad gamepad) {
         double setServoPow = gamepad.left_bumper || gamepad.right_bumper ? servoPow : 0;
 
+        telemetry.addLine("Is it working");
+
         if(gamepad.left_bumper)
             Octonaut.clawServo.setDirection(CRServo.Direction.FORWARD);
         else if(gamepad.right_bumper)
@@ -162,7 +164,7 @@ public class IdiotsInCars extends LinearOpMode {
             telemetry.addData("imu", robot.imu.getAngularOrientation());
 //            telemetry.addData("context", robot.odometry.getContext());
             float[] driveTrainPowers = moveDriveTrain(gamepad1, speedFactor);
-            moveClaw(gamepad1);
+            moveClaw(gamepad2);
             int slidePos = moveSlides(gamepad2);
 
             telemetry.addData("Speed factor", speedFactor);

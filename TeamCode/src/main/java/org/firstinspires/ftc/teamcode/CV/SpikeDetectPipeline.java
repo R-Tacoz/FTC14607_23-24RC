@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.CV;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.util.UtilityCameraFrameCapture;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -19,14 +21,13 @@ public class SpikeDetectPipeline extends OpenCvPipeline {
         RIGHT
     }
     private volatile SpikePosition detectedPosition = SpikePosition.NONE; //position with the most amount of the color
+    private double detectedPercentage = 0.00;
+    private Mat currentInput = new Mat();
 
-    public static int REGION_WIDTH = 40;
-    public static int REGION_HEIGHT = 80;
-
-    private final Scalar PURPLE = new Scalar(0,0,0);
+    private final Scalar PURPLE = new Scalar(138,43, 226);
     private final Scalar
-            lower_purple_bounds = new Scalar(0,0,0) ,
-            upper_purple_bounds = new Scalar(0,0,0);
+            lower_purple_bounds = new Scalar(186,85,221) ,
+            upper_purple_bounds = new Scalar(75,0,130);
 
     private double leftPercent, centerPercent, rightPercent;
 
@@ -35,18 +36,23 @@ public class SpikeDetectPipeline extends OpenCvPipeline {
     private Mat leftMatPurple = new Mat(), centerMatPurple = new Mat(), rightMatPurple = new Mat();
     private Rect leftBounds = new Rect(
             new Point(0,0),
-            new Point(0,0)),
+            new Point((int)(UtilityCameraFrameCapture.RESOLUTION_WIDTH / 3),UtilityCameraFrameCapture.RESOLUTION_HEIGHT)),
     centerBounds = new Rect(
             new Point(0,0),
-            new Point(0,0) ),
+            new Point(UtilityCameraFrameCapture.RESOLUTION_WIDTH * 2 / 3,UtilityCameraFrameCapture.RESOLUTION_HEIGHT)),
     rightBounds = new Rect(
             new Point(0,0),
-            new Point(0,0));
+            new Point(UtilityCameraFrameCapture.RESOLUTION_WIDTH,UtilityCameraFrameCapture.RESOLUTION_HEIGHT));
+
+    private Rect fullBounds = new Rect(
+            new Point(0,0),
+            new Point(UtilityCameraFrameCapture.RESOLUTION_WIDTH, UtilityCameraFrameCapture.RESOLUTION_HEIGHT));
 
     @Override
     public Mat processFrame(Mat input) {
         Imgproc.cvtColor(input, input, Imgproc.COLOR_RGB2HSV);
-        Imgproc.blur(input, blurredMat, new Size(5,5));
+        Imgproc.blur(input, blurredMat, new Size(UtilityCameraFrameCapture.RESOLUTION_WIDTH, UtilityCameraFrameCapture.RESOLUTION_HEIGHT));
+        blurredMat = blurredMat.submat( fullBounds );
 
         leftMat = blurredMat.submat(leftBounds);
         centerMat = blurredMat.submat(centerBounds);
@@ -61,6 +67,8 @@ public class SpikeDetectPipeline extends OpenCvPipeline {
         rightPercent = Core.countNonZero(rightMatPurple);
 
         double maxPecent = Math.max(leftPercent, Math.max(centerPercent, rightPercent) );
+
+        detectedPercentage = maxPecent;
 
         if(maxPecent == leftPercent){
             detectedPosition = SpikePosition.LEFT;
@@ -80,11 +88,21 @@ public class SpikeDetectPipeline extends OpenCvPipeline {
         centerMatPurple.release();
         rightMatPurple.release();
 
+        currentInput = input;
+
         //stuff
         return input;
     }
 
     public SpikePosition getSpikePosition() {
         return detectedPosition;
+    }
+
+    public double getSpikePercent(){
+        return detectedPercentage;
+    }
+
+    public Mat getCurrentInput(){
+        return currentInput;
     }
 }
