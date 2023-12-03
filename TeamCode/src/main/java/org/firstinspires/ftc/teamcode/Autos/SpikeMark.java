@@ -13,6 +13,9 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.util.UtilityCameraFrameCapture;
 import org.firstinspires.ftc.vision.VisionPortal;
+import org.opencv.core.Mat;
+import org.opencv.core.Point3;
+import org.opencv.core.Scalar;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -45,10 +48,9 @@ public class SpikeMark extends LinearOpMode {
             telemetry.addData("Detected position", spike);
             telemetry.addData("Detected Percentage", percent);
             telemetry.addLine(spikeProcessor.getCurrentInput().toString());
+            telemetry.addData("leftmat ele" , spikeProcessor.getLeftMat());
+            telemetry.addData("leftmatpurple", spikeProcessor.getLeftMatPurple());
             telemetry.addData("leftmat", spikeProcessor.getLeftMat());
-            telemetry.addData("centermat", spikeProcessor.getCenterMat());
-            telemetry.addData("rightmat", spikeProcessor.getRightMat());
-            telemetry.addData("blurredmat", spikeProcessor.getBlurredMat());
             telemetry.update();
         }
 
