@@ -124,9 +124,8 @@ public class IdiotsInCars extends LinearOpMode {
             int setPos = lastSlidePos;
             slideDirection = 0;
             movingSlide = true;
-            if (gamepad.x) {setPos = 300;} // raise lift when setting to pole height
-            else if (gamepad.y) {setPos = 700;}
-            else if (gamepad.b) {setPos = 960;}
+            if (gamepad.y) {setPos = 300;}
+            else if (gamepad.b) {setPos = 700;}
             else if (gamepad.a || movingToGround) {setPos = Octonaut.GROUND; }
             else {movingSlide = false; }
             // stop moving to ground if reached it
@@ -162,7 +161,7 @@ public class IdiotsInCars extends LinearOpMode {
 
     public void runOpMode() {
         robot = new Octonaut(hardwareMap,this, 0,0, 8192, 5, 30, 0);
-        float speedFactor = fastSpeed;
+        float speedFactor = 0.8f;
 
         for(DcMotorEx m:robot.drivetrain) m.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 

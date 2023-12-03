@@ -13,7 +13,7 @@ import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
-public class SpikeDetectProcessor implements VisionProcessor {
+public class SpikeDetectProcessorBlue implements VisionProcessor {
 
     public enum SpikePosition {
         NONE,
@@ -25,9 +25,12 @@ public class SpikeDetectProcessor implements VisionProcessor {
     private double detectedPercentage = 0.00;
     private Mat currentInput = new Mat();
 
-//    private final Scalar
-//            lower_red_bounds = new Scalar(155, 55, 55),
-//            upper_red_bounds = new Scalar(179, 225, 255);
+    private final Scalar
+            lower_red_bounds = new Scalar(155, 55, 55),
+            upper_red_bounds = new Scalar(179, 225, 255);
+    private final Scalar
+            lower_blue_bounds = new Scalar(100, 0, 0),
+            upper_blue_bounds = new Scalar(255,50,50);
     private final Scalar
             lower_purple_bounds = new Scalar(100,0,100),
             upper_purple_bounds = new Scalar(255, 100, 255);
@@ -68,9 +71,9 @@ public class SpikeDetectProcessor implements VisionProcessor {
         centerMat = input.submat(centerBounds);
         rightMat = input.submat(rightBounds);
 
-        Core.inRange(leftMat, lower_purple_bounds, upper_purple_bounds, leftMatPurple);
-        Core.inRange(centerMat, lower_purple_bounds, upper_purple_bounds, centerMatPurple);
-        Core.inRange(rightMat, lower_purple_bounds, upper_purple_bounds, rightMatPurple);
+        Core.inRange(leftMat, lower_blue_bounds, upper_blue_bounds, leftMatPurple);
+        Core.inRange(centerMat, lower_blue_bounds, upper_blue_bounds, centerMatPurple);
+        Core.inRange(rightMat, lower_blue_bounds, upper_blue_bounds, rightMatPurple);
 
         double total_pixels = 640*480;
         leftPercent = Core.countNonZero(leftMatPurple) / total_pixels;
@@ -87,7 +90,7 @@ public class SpikeDetectProcessor implements VisionProcessor {
                     input,
                     new Point(0,0),
                     new Point(UtilityCameraFrameCapture.RESOLUTION_WIDTH / 3, UtilityCameraFrameCapture.RESOLUTION_HEIGHT),
-                    lower_purple_bounds);
+                    lower_blue_bounds);
         }
         else if(maxPercent == centerPercent){
             detectedPosition = SpikePosition.CENTER;
