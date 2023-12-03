@@ -1,18 +1,19 @@
 package org.firstinspires.ftc.teamcode.CV;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
+import android.graphics.Canvas;
+
+import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.teamcode.util.UtilityCameraFrameCapture;
+import org.firstinspires.ftc.vision.VisionProcessor;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
-import org.opencv.core.Rect2d;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
-import org.openftc.easyopencv.OpenCvPipeline;
 
-public class SpikeDetectPipeline extends OpenCvPipeline {
+public class SpikeDetectProcessor implements VisionProcessor {
 
     public enum SpikePosition {
         NONE,
@@ -49,8 +50,13 @@ public class SpikeDetectPipeline extends OpenCvPipeline {
             new Point(UtilityCameraFrameCapture.RESOLUTION_WIDTH, UtilityCameraFrameCapture.RESOLUTION_HEIGHT));
 
     @Override
-    public Mat processFrame(Mat input) {
-        Imgproc.cvtColor(input, input, Imgproc.COLOR_RGB2HSV);
+    public void init(int width, int height, CameraCalibration calibration){
+
+    }
+
+    @Override
+    public Mat processFrame(Mat input, long captureTimeNanos) {
+        //Imgproc.cvtColor(input, input, Imgproc.COLOR_RGB2HSV);
         Imgproc.blur(input, blurredMat, new Size(UtilityCameraFrameCapture.RESOLUTION_WIDTH, UtilityCameraFrameCapture.RESOLUTION_HEIGHT));
         blurredMat = blurredMat.submat( fullBounds );
 
@@ -92,6 +98,11 @@ public class SpikeDetectPipeline extends OpenCvPipeline {
 
         //stuff
         return input;
+    }
+
+    @Override
+    public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
+        // Not useful either
     }
 
     public SpikePosition getSpikePosition() {

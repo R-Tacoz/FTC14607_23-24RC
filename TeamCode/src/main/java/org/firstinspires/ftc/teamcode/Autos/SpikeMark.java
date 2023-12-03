@@ -1,15 +1,18 @@
 package org.firstinspires.ftc.teamcode.Autos;
 
+import android.util.Size;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.CV.SpikeDetectProcessor;
 import org.firstinspires.ftc.teamcode.Robots.Octonaut;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.CV.SpikeDetectPipeline;
 import org.firstinspires.ftc.teamcode.util.UtilityCameraFrameCapture;
+import org.firstinspires.ftc.vision.VisionPortal;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -18,57 +21,43 @@ import org.openftc.easyopencv.OpenCvWebcam;
 @Autonomous(name = "EOCV Auto", group = "main")
 public class SpikeMark extends LinearOpMode {
     Octonaut robot;
+    VisionPortal visionportal;
     OpenCvWebcam webcam;
 
     @Override
     public void runOpMode() throws InterruptedException {
         robot = new Octonaut(hardwareMap,this, 0,0, 8192, 5, 30, 0);
 
-        // initialize webcam and detect color using pipeline
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        SpikeDetectPipeline pipeline = new SpikeDetectPipeline();
-        webcam.setPipeline(pipeline);
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
-            @Override
-            public void onOpened()
-            {
-                webcam.startStreaming(UtilityCameraFrameCapture.RESOLUTION_WIDTH, UtilityCameraFrameCapture.RESOLUTION_HEIGHT, OpenCvCameraRotation.UPRIGHT);
-            }
+        SpikeDetectProcessor spikeProcessor = new SpikeDetectProcessor();
 
-            @Override
-            public void onError(int errorCode)
-            {
-            }
+        visionportal = new VisionPortal.Builder()
+                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
+                .setCameraResolution(new Size(UtilityCameraFrameCapture.RESOLUTION_WIDTH, UtilityCameraFrameCapture.RESOLUTION_HEIGHT))
+                .addProcessor(spikeProcessor)
+                .enableLiveView(true)
+                .build();
 
-        });
-        // -----------------------------------------------------------------------------------------
         waitForStart();
 
-
-
-        SpikeDetectPipeline.SpikePosition spike = pipeline.getSpikePosition();
-        double percent = pipeline.getSpikePercent();
-        telemetry.addData("Detected position", spike);
-        telemetry.addData("Detected Percentage", percent);
-        telemetry.addLine(pipeline.getCurrentInput().toString());
-        telemetry.update();
-        sleep(  1000);
-
-        int zone = 0;
-        if (spike == SpikeDetectPipeline.SpikePosition.LEFT) {
-            zone = 1;
-        } else if (spike == SpikeDetectPipeline.SpikePosition.CENTER) {
-            zone = 2;
-        } else {
-            zone = 3;
+        while(opModeIsActive()){
+            SpikeDetectProcessor.SpikePosition spike = spikeProcessor.getSpikePosition();
+            double percent = spikeProcessor.getSpikePercent();
+            telemetry.addData("Detected position", spike);
+            telemetry.addData("Detected Percentage", percent);
+            telemetry.addLine(spikeProcessor.getCurrentInput().toString());
+            telemetry.update();
         }
-        webcam.stopStreaming();
-        webcam.stopRecordingPipeline();
-        //Do moving stuff
 
-        while(opModeIsActive()){}
+//        int zone = 0;
+//        if (spike == SpikeDetectProcessor.SpikePosition.LEFT) {
+//            zone = 1;
+//        } else if (spike == SpikeDetectProcessor.SpikePosition.CENTER) {
+//            zone = 2;
+//        } else {
+//            zone = 3;
+//        }
+//        //Do moving stuff
+
 
     }
 }
