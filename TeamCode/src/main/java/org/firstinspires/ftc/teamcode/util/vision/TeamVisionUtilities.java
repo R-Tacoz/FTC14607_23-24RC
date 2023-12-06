@@ -3,9 +3,19 @@ package org.firstinspires.ftc.teamcode.util.vision;
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
-public final class TeamAprilTags {
+public final class TeamVisionUtilities {
 
-    private TeamAprilTags() {}
+    // Logitech blah blah blah
+    public static int CAMERA_RESOLUTION_WIDTH = 640;
+    public static int CAMERA_RESOLUTION_HEIGHT = 480;
+    // * From 3DF Zephyr. Instructions: https://ftc-docs.firstinspires.org/en/latest/programming_resources/vision/camera_calibration/camera-calibration.html
+    public static double
+            INTRINSICS_FX = 594.974989979,
+            INSTRINSICS_FY = 594.974989979,
+            INSTRINSICS_CX = 326.694716194,
+            INTRINSICS_CY = 217.453950995;
+
+    private TeamVisionUtilities() {} // disallow instantiation bc u shouldnt be
 
     public static AprilTagProcessor getAprilTagProcessor(){
 //
@@ -17,8 +27,7 @@ public final class TeamAprilTags {
 
         AprilTagProcessor aprilTagProcessor = new AprilTagProcessor.Builder()
                 .setTagLibrary(AprilTagGameDatabase.getCenterStageTagLibrary())
-                // params for Logitech XXXX from 3DF Zephyr
-                .setLensIntrinsics(594.974989979, 594.974989979, 326.694716194, 217.453950995)
+                .setLensIntrinsics(INTRINSICS_FX, INSTRINSICS_FY, INSTRINSICS_CX, INTRINSICS_CY)
                 .build();
 
         return aprilTagProcessor;

@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.util.vision.TeamAprilTags;
+import org.firstinspires.ftc.teamcode.util.vision.TeamVisionUtilities;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -24,7 +24,7 @@ public class SampleAprilTags extends LinearOpMode {
 
     @Override
     public void runOpMode(){
-        aprilTagProcessor = TeamAprilTags.getAprilTagProcessor();
+        aprilTagProcessor = TeamVisionUtilities.getAprilTagProcessor();
         initVisionPortal();
         telemetry.addLine("VisionPortal Initialized.");
         telemetry.update();

@@ -41,19 +41,19 @@ public class SpikeDetectProcessorRed implements VisionProcessor {
     private Mat leftMatPurple = new Mat(), centerMatPurple = new Mat(), rightMatPurple = new Mat();
     private Rect leftBounds = new Rect(
             new Point(0,0),
-            new Point(UtilityCameraFrameCapture.RESOLUTION_WIDTH / 3, UtilityCameraFrameCapture.RESOLUTION_HEIGHT )
+            new Point(TeamVisionUtilities.CAMERA_RESOLUTION_WIDTH / 3, TeamVisionUtilities.CAMERA_RESOLUTION_HEIGHT )
             ),
     centerBounds = new Rect(
-            new Point(UtilityCameraFrameCapture.RESOLUTION_WIDTH / 3, 0),
-            new Point(UtilityCameraFrameCapture.RESOLUTION_WIDTH * 2 / 3 , UtilityCameraFrameCapture.RESOLUTION_HEIGHT)
+            new Point(TeamVisionUtilities.CAMERA_RESOLUTION_WIDTH / 3, 0),
+            new Point(TeamVisionUtilities.CAMERA_RESOLUTION_WIDTH * 2 / 3 , TeamVisionUtilities.CAMERA_RESOLUTION_HEIGHT)
             ),
     rightBounds = new Rect(
-            new Point(UtilityCameraFrameCapture.RESOLUTION_WIDTH * 2 / 3, 0),
-            new Point(UtilityCameraFrameCapture.RESOLUTION_WIDTH,UtilityCameraFrameCapture.RESOLUTION_HEIGHT));
+            new Point(TeamVisionUtilities.CAMERA_RESOLUTION_WIDTH * 2 / 3, 0),
+            new Point(TeamVisionUtilities.CAMERA_RESOLUTION_WIDTH,TeamVisionUtilities.CAMERA_RESOLUTION_HEIGHT));
 
     private Rect fullBounds = new Rect(
             new Point(0,0),
-            new Point(UtilityCameraFrameCapture.RESOLUTION_WIDTH, UtilityCameraFrameCapture.RESOLUTION_HEIGHT));
+            new Point(TeamVisionUtilities.CAMERA_RESOLUTION_WIDTH, TeamVisionUtilities.CAMERA_RESOLUTION_HEIGHT));
 
     @Override
     public void init(int width, int height, CameraCalibration calibration){
@@ -63,7 +63,7 @@ public class SpikeDetectProcessorRed implements VisionProcessor {
     @Override
     public Mat processFrame(Mat input, long captureTimeNanos) {
         Imgproc.cvtColor(input, input, Imgproc.COLOR_BGR2HSV);
-        Imgproc.blur(input, blurredMat, new Size(UtilityCameraFrameCapture.RESOLUTION_WIDTH, UtilityCameraFrameCapture.RESOLUTION_HEIGHT));
+        Imgproc.blur(input, blurredMat, new Size(TeamVisionUtilities.CAMERA_RESOLUTION_WIDTH, TeamVisionUtilities.CAMERA_RESOLUTION_HEIGHT));
         blurredMat = blurredMat.submat(fullBounds);
 
         leftMat = input.submat(leftBounds);
@@ -88,7 +88,7 @@ public class SpikeDetectProcessorRed implements VisionProcessor {
             Imgproc.rectangle(
                     input,
                     new Point(0,0),
-                    new Point(UtilityCameraFrameCapture.RESOLUTION_WIDTH / 3, UtilityCameraFrameCapture.RESOLUTION_HEIGHT),
+                    new Point(TeamVisionUtilities.CAMERA_RESOLUTION_WIDTH / 3, TeamVisionUtilities.CAMERA_RESOLUTION_HEIGHT),
                     lower_red_bounds);
         }
         else if(maxPercent == centerPercent){
