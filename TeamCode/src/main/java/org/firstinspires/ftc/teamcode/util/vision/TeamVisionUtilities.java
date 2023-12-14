@@ -5,7 +5,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 public final class TeamVisionUtilities {
 
-    // Logitech blah blah blah
+    // Microsoft LifeCam Cinema HD USB Webcam
     public static int CAMERA_RESOLUTION_WIDTH = 640;
     public static int CAMERA_RESOLUTION_HEIGHT = 480;
     // * From 3DF Zephyr. Instructions: https://ftc-docs.firstinspires.org/en/latest/programming_resources/vision/camera_calibration/camera-calibration.html
