@@ -4,7 +4,7 @@ package org.firstinspires.ftc.teamcode.teleops;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ public class GamepadTest extends OpMode {
     private DcMotor leftBackDrive = null;
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
-    private CRServo intake = null;
+    private Servo intake = null;
     private ArrayList<DcMotor> driveTrain = new ArrayList<>(); //Holds on to all the motors above so i can easily do operations on all
 
     //Driving Variables
@@ -35,7 +35,7 @@ public class GamepadTest extends OpMode {
 //        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
 //        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
 //        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
-        intake = hardwareMap.get(CRServo.class, "tester");
+        intake = hardwareMap.get(Servo.class, "test");
 //        driveTrain.add(leftBackDrive);
 //        driveTrain.add(leftBackDrive);
 //        driveTrain.add(rightFrontDrive);
@@ -98,11 +98,14 @@ public class GamepadTest extends OpMode {
         //Axial and lateral can be thought of as a unit coordinate plane
         double yaw = gamepad1.right_stick_x; //Essentially, the angular direction of drivetrain
         if (gamepad1.a) {
-            intake.setPower(0.7);
+            intake.setPosition(0.7);
+            telemetry.addLine("Moving");
         }
         else if (gamepad1.b){
-            intake.setPower(0);
+            intake.setPosition(0);
+            telemetry.addLine("resetting");
         }
+        telemetry.update();
         //Ask someone to teach me math of omni wheels and implement here
     }
 
