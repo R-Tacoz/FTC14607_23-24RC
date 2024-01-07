@@ -9,7 +9,9 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.util.vision.PropDetectProcessor;
 import org.firstinspires.ftc.teamcode.util.vision.TeamVisionUtilities;
+import org.firstinspires.ftc.teamcode.util.vision.UtilityCameraFrameCapture;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -19,53 +21,8 @@ import java.util.List;
 @Config
 @Autonomous(name = "Main Auto", group = "Main")
 public class UniGarten extends LinearOpMode {
-    private static final int RESOLUTION_WIDTH = 640;
-    private static final int RESOLUTION_HEIGHT = 480;
-    private VisionPortal visionPortal;
-    private AprilTagProcessor aprilTagProcessor;
-
-    Octonaut robot;
-
     @Override
-    public void runOpMode(){
-        robot = new Octonaut(this);
+    public void runOpMode() throws InterruptedException {
 
-        initVision();
-        telemetry.addLine("VisionPortal Initialized.");
-        telemetry.update();
-
-        waitForStart();
-        while(opModeIsActive()){
-
-            List<AprilTagDetection> detectedTags = aprilTagProcessor.getDetections();
-
-            for(AprilTagDetection detectedTag : detectedTags) {
-                if (detectedTag.metadata != null) {
-                    telemetry.addData("Target" , "ID %d (%s)" , detectedTag.id, detectedTag.metadata.name);
-                    telemetry.addData("Range", "%5.1f inches", detectedTag.ftcPose.range);
-                    telemetry.addData("Pitch", "%5.0f degrees", detectedTag.ftcPose.pitch); //up down
-                    telemetry.addData("Yaw", "%5.0f degrees", detectedTag.ftcPose.yaw); //left and right
-                    telemetry.addData("Bearing" , "%5.0f degrees", detectedTag.ftcPose.bearing); //turn
-                    telemetry.addLine("--------------------------------------");
-                }
-            }
-            telemetry.update();
-
-
-            float fps = visionPortal.getFps(); // get FPS
-        }
-        visionPortal.stopStreaming(); // conserve resources
-        visionPortal.resumeStreaming();
-        visionPortal.close(); // permanent stop
-    }
-
-    private void initVision() {
-        aprilTagProcessor = TeamVisionUtilities.getAprilTagProcessor();
-        visionPortal = new VisionPortal.Builder()
-                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
-                .addProcessor(aprilTagProcessor)
-                .enableLiveView(true) // TODO: what does this do
-                .setCameraResolution(new Size(RESOLUTION_WIDTH, RESOLUTION_HEIGHT) )
-                .build();
     }
 }
