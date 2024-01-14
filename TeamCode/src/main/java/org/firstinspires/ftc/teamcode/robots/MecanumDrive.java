@@ -116,7 +116,8 @@ public class MecanumDrive extends RobotBase { // TODO: samplemecanumdrive?
      */
     public void blockExecutionForRunToPosition(long startTime) {
         while (opMode.opModeIsActive() && !opMode.isStopRequested()) {
-            if (!drivetrain[0].isBusy()) break;
+            if (!drivetrain[0].isBusy() && !drivetrain[1].isBusy() && !drivetrain[2].isBusy() && !drivetrain[3].isBusy())
+                break;
                 // stop motors after 10 seconds
             else if (startTime > 0 && (System.nanoTime() - startTime > 10000000000L)) {
                 for(DcMotorEx m : drivetrain) m.setVelocity(0);

@@ -24,10 +24,10 @@ public abstract class RobotBase {
         public final double ROBOT_LENGTH, ROBOT_WIDTH, ROBOT_HEIGHT;
         // CENTIMETERS
         public final double WHEEL_DIAMETER, WHEEL_CIRCUMFERENCE;
-        //
-        public final int DRIVETRAIN_TICKS;
+        // (encoder resolution)
+        public final double DRIVETRAIN_TICKS;
 
-        public RobotDimensions(double robotLength, double robotWidth, double robotHeight, double wheelDiameter, int drivetrainTicks) {
+        public RobotDimensions(double robotLength, double robotWidth, double robotHeight, double wheelDiameter, double drivetrainTicks) {
             ROBOT_LENGTH = robotLength;
             ROBOT_WIDTH = robotWidth;
             ROBOT_HEIGHT = robotHeight;
