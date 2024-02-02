@@ -13,13 +13,14 @@ import org.checkerframework.checker.index.qual.NonNegative;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
+import org.firstinspires.ftc.teamcode.robots.Inktonaut;
 import org.firstinspires.ftc.teamcode.robots.Octonaut;
 
 @TeleOp(name = "Main Linear TeleOp", group = "Main")
 public class Gaybians extends LinearOpMode {
 
     // Etc
-    Octonaut robot;
+    Inktonaut robot;
     public final DecimalFormat fourDecimals = new DecimalFormat("#.0000");
     public final float slowSpeed = 0.3f;
     public final float fastSpeed = 0.54f;
@@ -99,8 +100,8 @@ public class Gaybians extends LinearOpMode {
         int SLIDE_DOWN_VELO = (int)(-800 * (fastSlides ? 1:0.45));
         // joystick: continuous
         if (up>0 || down>0) {
-            if(up>0 && slidePos >= Octonaut.SLIDETOP-30) robot.setSlidePos(Octonaut.SLIDETOP);
-            else if(down>0 && slidePos <= Octonaut.SLIDEBOTTOM+30) robot.setSlidePos(Octonaut.SLIDEBOTTOM);
+            if(up>0 && slidePos >= Octonaut.SLIDETOP-30) robot.setSlidePos(Octonaut.SLIDETOP); //buffer for the top
+            else if(down>0 && slidePos <= Octonaut.SLIDEBOTTOM+30) robot.setSlidePos(Octonaut.SLIDEBOTTOM); //buffer for bottom
             else {
                 movingSlide = true;
                 double velo = 0;
@@ -108,14 +109,14 @@ public class Gaybians extends LinearOpMode {
                     velo = SLIDE_UP_VELO; slideDirection = 1; }
                 else {
                     velo = SLIDE_DOWN_VELO; slideDirection = -1; }
-                robot.setSlideVelo(velo);
+                robot.setSlideVelocity(velo);
             }
             // a,b,x,y, preset positions or hold current position
         }
         else {
             if (movingSlide) {
                 movingSlide = false;
-                lastSlidePos = slidePos + 5*slideDirection;
+                lastSlidePos = slidePos + 5*slideDirection; //essentially stops moving the slides when you let go of the vertical stick
             }
             int setPos = lastSlidePos;
             slideDirection = 0;
@@ -135,28 +136,28 @@ public class Gaybians extends LinearOpMode {
     //test servo (11/30/2023)
     private double servoPow = 1;
     private double servoPos = 0.666;
-    public void moveClaw(@NonNull Gamepad gamepad) {
-        double setServoPow = gamepad.left_bumper || gamepad.right_bumper ? servoPow : 0;
-
-        telemetry.addLine("Is it working");
-
-        if(gamepad.left_bumper) {
-            robot.outtake();
-            setServoPow = 0.2;
-        }
-        else if(gamepad.right_bumper) robot.intake();
-        robot.setClawPower(setServoPow);
-    }
+//    public void moveClaw(@NonNull Gamepad gamepad) {
+//        double setServoPow = gamepad.left_bumper || gamepad.right_bumper ? servoPow : 0;
+//
+//        telemetry.addLine("Is it working");
+//
+//        if(gamepad.left_bumper) {
+//            robot.outtake();
+//            setServoPow = 0.2;
+//        }
+//        else if(gamepad.right_bumper) robot.intake();
+//        robot.setClawPower(setServoPow);
+//    }
 
     private double liftPos = 0;
-    public void moveLift(@NonNull Gamepad gamepad) {
-        liftPos = robot.lift.getPosition();
-        if (gamepad.right_trigger > 0) robot.setLift(liftPos + 0.02);
-        else if (gamepad.left_trigger > 0) robot.setLift(liftPos - 0.02);
-    }
+//    public void moveLift(@NonNull Gamepad gamepad) {
+//        liftPos = robot.lift.getPosition();
+//        if (gamepad.right_trigger > 0) robot.setLift(liftPos + 0.02);
+//        else if (gamepad.left_trigger > 0) robot.setLift(liftPos - 0.02);
+//    }
 
     public void runOpMode() {
-        robot = new Octonaut(this);
+        robot = new Inktonaut(this);
         float speedFactor = 0.8f;
 
         for(DcMotorEx m:robot.drivetrain) m.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -167,9 +168,9 @@ public class Gaybians extends LinearOpMode {
             telemetry.addData("imu", robot.imu.getAngularOrientation());
 //            telemetry.addData("context", robot.odometry.getContext());
             float[] driveTrainPowers = moveDriveTrain(gamepad1, speedFactor);
-            moveClaw(gamepad2);
+//            moveClaw(gamepad2);
             int slidePos = moveSlides(gamepad2);
-            moveLift(gamepad2);
+//            moveLift(gamepad2);
 
             telemetry.addData("Speed factor", speedFactor);
             telemetry.addData("Drivetrain powers", Arrays.toString(driveTrainPowers));

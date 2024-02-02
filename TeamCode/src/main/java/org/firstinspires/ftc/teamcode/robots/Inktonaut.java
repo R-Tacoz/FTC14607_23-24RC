@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
@@ -15,8 +16,8 @@ public class Inktonaut extends MecanumDrive {
     public DcMotorEx suspensionRight, suspensionLeft; // goBilda Yellow Jacket 312 RPM;
 
     public Servo claw; // goBilda Dual Mode Torque
-    public CRServo wrist; // Axon mini
-    public CRServo elbow; // Axon mini
+    public Servo wrist; // Axon mini
+    public Servo elbow; // Axon mini
     public Servo gliderRelease; // naughty naughty arnav
 
     public PIDFController slidepidfcontroller;
@@ -25,8 +26,8 @@ public class Inktonaut extends MecanumDrive {
     public final static RobotDimensions DIMENSIONS = new RobotDimensions(
             -1, -1, -1, 9.6, 537.7
     );
-    public final static int SLIDES_BOTTOM = 0; // ticks
-    public final static int SLIDES_TOP = 1000;
+    public final static int SLIDES_BOTTOM = 100; // ticks
+    public final static int SLIDES_TOP = 900;
     public final static double WRIST_POS_BACKDROP = 0.3;
 
     public Inktonaut(LinearOpMode opModeInstance) {
@@ -34,9 +35,9 @@ public class Inktonaut extends MecanumDrive {
         dimensions = Inktonaut.DIMENSIONS;
 
         slides = hardwareMap.get(DcMotorEx.class, "slides");
-        claw = hardwareMap.get(Servo.class, "claw");
-        wrist = hardwareMap.get(CRServo.class, "wrist");
-        elbow = hardwareMap.get(CRServo.class, "elbow");
+        //claw = hardwareMap.get(Servo.class, "claw");
+        //wrist = hardwareMap.get(Servo.class, "wrist");
+//        elbow = hardwareMap.get(Servo.class, "elbow");
 //        gliderRelease = hardwareMap.get(Servo.class, "gliderRelease");
 
         slides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -73,23 +74,23 @@ public class Inktonaut extends MecanumDrive {
         claw.setPosition(pos);
     }
     public double getWristPos() {
-        return 0.0;
+        return wrist.getPosition();
     }
     public void setWristPos(double pos) {
-
+        wrist.setPosition(pos);
     }
     public double getElbowPos() {
-        return 0.0;
+        return elbow.getPosition();
     }
     public void setElbowPos(double pos) {
-
+        elbow.setPosition(pos);
     }
 
     /**
      * Move the elbow while mainting the angle of the claw (for outtaking on backdrop)
      * @param pos - [0.0, 1.0]
      */
-    public void setElbowIK(double pos) {
+    public void setElbowIK(double pos) { //Inverse kinematics
 
     }
 
@@ -111,9 +112,10 @@ public class Inktonaut extends MecanumDrive {
     /** @param height - (ticks)     */
     public void setSlidePos(int height) {
         height = Range.clip(height, SLIDES_BOTTOM, SLIDES_TOP);
+        slides.setDirection(DcMotorSimple.Direction.FORWARD);
         slides.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         slides.setTargetPosition(height);
-        slides.setVelocity( (height > getSlidePos()) ? 1200:1000 );
+        slides.setVelocity( (height > getSlidePos()) ? 1200:1000 ); //going up is faster than going down
     }
 
     public void setSuspensionPos(double pos) {
