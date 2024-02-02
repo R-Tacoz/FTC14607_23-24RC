@@ -93,9 +93,7 @@ public class Inktonaut extends MecanumDrive {
 
     }
 
-
     // ------------------------------------ INTERACTOR METHODS -------------------------------------
-
 
     /** @return Left slides current position in ticks~(0-960) */
     public int getSlidePos() { return slides.getCurrentPosition(); }
