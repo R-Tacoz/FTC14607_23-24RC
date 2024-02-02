@@ -35,7 +35,7 @@ public class Inktonaut extends MecanumDrive {
         dimensions = Inktonaut.DIMENSIONS;
 
         slides = hardwareMap.get(DcMotorEx.class, "slides");
-        //claw = hardwareMap.get(Servo.class, "claw");
+        claw = hardwareMap.get(Servo.class, "claw");
         //wrist = hardwareMap.get(Servo.class, "wrist");
 //        elbow = hardwareMap.get(Servo.class, "elbow");
 //        gliderRelease = hardwareMap.get(Servo.class, "gliderRelease");

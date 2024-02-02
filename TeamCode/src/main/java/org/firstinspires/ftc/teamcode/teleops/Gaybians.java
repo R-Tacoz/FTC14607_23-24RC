@@ -100,8 +100,8 @@ public class Gaybians extends LinearOpMode {
         int SLIDE_DOWN_VELO = (int)(-800 * (fastSlides ? 1:0.45));
         // joystick: continuous
         if (up>0 || down>0) {
-            if(up>0 && slidePos >= Octonaut.SLIDETOP-30) robot.setSlidePos(Octonaut.SLIDETOP); //buffer for the top
-            else if(down>0 && slidePos <= Octonaut.SLIDEBOTTOM+30) robot.setSlidePos(Octonaut.SLIDEBOTTOM); //buffer for bottom
+            if(up>0 && slidePos >= Inktonaut.SLIDES_TOP-30) robot.setSlidePos(Inktonaut.SLIDES_TOP); //buffer for the top
+            else if(down>0 && slidePos <= Inktonaut.SLIDES_BOTTOM+30) robot.setSlidePos(Inktonaut.SLIDES_BOTTOM); //buffer for bottom
             else {
                 movingSlide = true;
                 double velo = 0;
@@ -136,18 +136,18 @@ public class Gaybians extends LinearOpMode {
     //test servo (11/30/2023)
     private double servoPow = 1;
     private double servoPos = 0.666;
-//    public void moveClaw(@NonNull Gamepad gamepad) {
+    public void moveClaw(@NonNull Gamepad gamepad) {
 //        double setServoPow = gamepad.left_bumper || gamepad.right_bumper ? servoPow : 0;
-//
-//        telemetry.addLine("Is it working");
-//
-//        if(gamepad.left_bumper) {
-//            robot.outtake();
+
+        telemetry.addLine("Is it working");
+
+        if(gamepad.left_bumper) { // close claw
+            robot.setClawPos(1);
 //            setServoPow = 0.2;
-//        }
-//        else if(gamepad.right_bumper) robot.intake();
+        }
+        else if(gamepad.right_bumper) robot.setClawPos(0); // open claw
 //        robot.setClawPower(setServoPow);
-//    }
+    }
 
     private double liftPos = 0;
 //    public void moveLift(@NonNull Gamepad gamepad) {
@@ -168,15 +168,15 @@ public class Gaybians extends LinearOpMode {
             telemetry.addData("imu", robot.imu.getAngularOrientation());
 //            telemetry.addData("context", robot.odometry.getContext());
             float[] driveTrainPowers = moveDriveTrain(gamepad1, speedFactor);
-//            moveClaw(gamepad2);
+            moveClaw(gamepad1);
 //            int slidePos = moveSlides(gamepad2);
-            robot.setSlidePos(500);
+//            robot.setSlidePos(500);
 //            moveLift(gamepad2);
 
             telemetry.addData("Speed factor", speedFactor);
             telemetry.addData("Drivetrain powers", Arrays.toString(driveTrainPowers));
             telemetry.addData("Servo power: ", servoPow);
-            //telemetry.addData("Slide position", slidePos);
+//            telemetry.addData("Slide position", slidePos);
             telemetry.addData("Slide speed", fastSlides);
             telemetry.addData("Lift position", liftPos);
             telemetry.update();
