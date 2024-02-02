@@ -123,11 +123,11 @@ public class Gaybians extends LinearOpMode {
             movingSlide = true;
             if (gamepad.y) {setPos = 300;}
             else if (gamepad.b) {setPos = 700;}
-            else if (gamepad.a || movingToGround) {setPos = Octonaut.GROUND; }
+            else if (gamepad.a || movingToGround) {setPos = Inktonaut.SLIDES_BOTTOM; }
             else {movingSlide = false; }
             // stop moving to ground if reached it
             if (slidePos < 20) movingToGround = false;
-            setPos = Range.clip(setPos, Octonaut.SLIDEBOTTOM, Octonaut.SLIDETOP);
+            setPos = Range.clip(setPos, Inktonaut.SLIDES_BOTTOM, Inktonaut.SLIDES_TOP);
             robot.setSlidePos(setPos);
         }
         return slidePos;
@@ -169,13 +169,14 @@ public class Gaybians extends LinearOpMode {
 //            telemetry.addData("context", robot.odometry.getContext());
             float[] driveTrainPowers = moveDriveTrain(gamepad1, speedFactor);
 //            moveClaw(gamepad2);
-            int slidePos = moveSlides(gamepad2);
+//            int slidePos = moveSlides(gamepad2);
+            robot.setSlidePos(500);
 //            moveLift(gamepad2);
 
             telemetry.addData("Speed factor", speedFactor);
             telemetry.addData("Drivetrain powers", Arrays.toString(driveTrainPowers));
             telemetry.addData("Servo power: ", servoPow);
-            telemetry.addData("Slide position", slidePos);
+            //telemetry.addData("Slide position", slidePos);
             telemetry.addData("Slide speed", fastSlides);
             telemetry.addData("Lift position", liftPos);
             telemetry.update();
