@@ -16,7 +16,7 @@ import java.util.Arrays;
 import org.firstinspires.ftc.teamcode.robots.MecanumDrive;
 import org.firstinspires.ftc.teamcode.robots.Octonaut;
 
-@TeleOp(name = "Drivetrain (drawing) TeleOp", group = "Main")
+@TeleOp(name = "Drivetrain Only", group = "Main")
 public class DrivetrainOnly extends LinearOpMode {
 
     MecanumDrive robot;

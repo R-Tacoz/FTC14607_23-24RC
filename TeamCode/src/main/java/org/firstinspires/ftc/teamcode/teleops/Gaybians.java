@@ -17,8 +17,6 @@ import org.firstinspires.ftc.teamcode.robots.Octonaut;
 
 @TeleOp(name = "Main Linear TeleOp", group = "Main")
 public class Gaybians extends LinearOpMode {
-    // Finite States
-    private enum OpState { START, }
 
     // Etc
     Octonaut robot;

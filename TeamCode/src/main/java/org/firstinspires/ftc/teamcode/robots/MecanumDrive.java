@@ -17,33 +17,32 @@ import java.util.List;
 
 @Config
 public class MecanumDrive extends RobotBase { // TODO: samplemecanumdrive?
-    // drivetrain
+
     public DcMotorEx frontRight, frontLeft, backRight, backLeft;
     public DcMotorEx[] drivetrain;
-    // sensor/controllers
 
-    public static PIDFCoefficients internalDrivePosPIDF = new PIDFCoefficients(10, 0.05, 0, 0, MotorControlAlgorithm.LegacyPID);
-    public static PIDFCoefficients internalDriveVeloPIDF = new PIDFCoefficients(10, 3, 0, 0, MotorControlAlgorithm.LegacyPID);
+    public PIDFCoefficients internalDrivePosPIDF = new PIDFCoefficients(10, 0.05, 0, 0, MotorControlAlgorithm.LegacyPID);
+    public PIDFCoefficients internalDriveVeloPIDF = new PIDFCoefficients(10, 3, 0, 0, MotorControlAlgorithm.LegacyPID);
 
-    public static double rotateP = 3.5, rotateI = 0.4, rotateD = 0.2, rotateF = 0.3;
-    public static PIDFController rotatePIDF;
+    public double rotateP = 3.5, rotateI = 0.4, rotateD = 0.2, rotateF = 0.3;
+    public PIDFController rotatePIDF;
 
-    public static PIDFController
+    public PIDFController
             FRStrafePID = new PIDFController(1.47,0.06,0.1,0.3),
             FLStrafePID = new PIDFController(1.6,0.06,0.1,0.3),
             BRStrafePID = new PIDFController(1.7,0.06,0.1,0.3),
             BLStrafePID = new PIDFController(1.9,0.06,0.1,0.3)
     ;
-    public static PIDFController[] strafePIDFs = new PIDFController[]{FRStrafePID, FLStrafePID, BRStrafePID, BLStrafePID};
+    public PIDFController[] strafePIDFs = new PIDFController[]{FRStrafePID, FLStrafePID, BRStrafePID, BLStrafePID};
 
     public PIDFController[] drivePIDFs; // for enhanced forward
-    public static double
+    public double
             frP=2.8, frI=0, frD=1.21, frF=0.2,
             flP=2.8, flI=0, flD=1.21, flF=0.21,
             brP=2.8, brI=0, brD=1.21, brF=0.2,
             blP=2.8, blI=0, blD=1.21, blF=0.21,
             headKeepP=40, headKeepI=0, headKeepD=10, headKeepF=0;
-    public static PIDFController FRPIDF, FLPIDF, BRPIDF, BLPIDF, headKeepPIDF;
+    public PIDFController FRPIDF, FLPIDF, BRPIDF, BLPIDF, headKeepPIDF;
 
     public MecanumDrive(LinearOpMode opModeInstance) {
         super(opModeInstance);
