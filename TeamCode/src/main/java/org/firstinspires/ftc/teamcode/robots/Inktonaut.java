@@ -30,10 +30,10 @@ public class Inktonaut extends MecanumDrive {
     public final static int SLIDES_TOP = 670;
     public final static double SLIDES_DEFAULT_SPEED = 300; // ticks / sec
     public final static double SLIDES_BUFFER = 30; // ticks
-    public final static double WRIST_POS_PIXEL = 0.01;
-    public final static double WRIST_POS_BACKDROP = 0.34;
-    public final static double ELBOW_POS_PIXEL = 0.01;
-    public final static double ELBOW_POS_BACKDROP = 0.3;
+    public final static double WRIST_POS_PIXEL = 0.66;
+    public final static double WRIST_POS_BACKDROP = 0.43;
+    public final static double ELBOW_POS_PIXEL = 0.2;
+    public final static double ELBOW_POS_BACKDROP = 0.91;
     public final static double CLAW_POS_OPEN = 0.325;
     public final static double CLAW_POS_CLOSE = 0.6;
 
@@ -81,23 +81,19 @@ public class Inktonaut extends MecanumDrive {
     public void setClawPos(double pos)  {
         claw.setPosition(Range.clip(pos, CLAW_POS_OPEN, CLAW_POS_CLOSE));
     }
-    public void closeClaw() { claw.setPosition(CLAW_POS_CLOSE); }
-    public void openClaw() { claw.setPosition(CLAW_POS_OPEN); }
+    public void closeClaw() { setClawPos(CLAW_POS_CLOSE); }
+    public void openClaw() { setClawPos(CLAW_POS_OPEN); }
     public double getWristPos() {
         return wrist.getPosition();
     }
     public void setWristPos(double pos) {
-        wrist.setPosition(pos);
+        wrist.setPosition(Range.clip(pos, WRIST_POS_BACKDROP, WRIST_POS_PIXEL));
     }
     public double getElbowPos() {
         return elbow.getPosition();
     }
     public void setElbowPos(double pos) {
-        if (getSlidePos() > SLIDES_BOTTOM + 100)
-            elbow.setPosition(Range.clip(pos, 0, 1));
-        else
-            elbow.setPosition(0);
-//        elbow.setPosition(Range.clip(pos, ELBOW_POS_BACKDROP, ELBOW_POS_PIXEL));
+        elbow.setPosition(Range.clip(pos, ELBOW_POS_PIXEL, ELBOW_POS_BACKDROP));
     }
 
     /**

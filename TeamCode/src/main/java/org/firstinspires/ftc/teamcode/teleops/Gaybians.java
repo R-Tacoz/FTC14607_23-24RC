@@ -183,10 +183,10 @@ public class Gaybians extends LinearOpMode {
         return slidePos;
     }
 
-    public static final double ARM_SYSTEM_SCALE = 0.01;
+    public static final double ARM_SYSTEM_SCALE = 0.015;
     private double interp = 0.0; // interp [0, 1]
     public double moveArmSystem(@NonNull Gamepad gamepad){ //returns interpolation value
-        boolean up = gamepad.a;
+        boolean up = gamepad.x;
         boolean down = gamepad.b;
 
         if(up) interp += ARM_SYSTEM_SCALE;
@@ -195,7 +195,7 @@ public class Gaybians extends LinearOpMode {
         interp = Range.clip(interp, 0, 1);
 
         if(up || down){
-            double wristPos = Range.scale(interp, 0, 1, Inktonaut.WRIST_POS_PIXEL, Inktonaut.WRIST_POS_BACKDROP);
+            double wristPos = -Range.scale(interp, 0, 1, -Inktonaut.WRIST_POS_PIXEL, -Inktonaut.WRIST_POS_BACKDROP);
             double elbowPos = Range.scale(interp, 0, 1, Inktonaut.ELBOW_POS_PIXEL, Inktonaut.ELBOW_POS_BACKDROP);
             robot.setWristPos(wristPos);
             robot.setElbowPos(elbowPos);
@@ -203,7 +203,7 @@ public class Gaybians extends LinearOpMode {
 
         return interp;
     }
-    public static final double WRIST_POS_SCALE = 0.015;
+    public static final double WRIST_POS_SCALE = 0.0085;
     public double moveWrist(@NonNull Gamepad gamepad){
         boolean goingUp = gamepad.right_trigger > 0;
         boolean goingDown = gamepad.left_trigger > 0;
@@ -219,28 +219,24 @@ public class Gaybians extends LinearOpMode {
         return wristPos;
     }
 
-    public static final double ELBOW_POS_SCALE = 0.012;
+    public static final double ELBOW_POS_SCALE = 0.085;
     public double moveElbow(@NonNull Gamepad gamepad){
         boolean goingUp = gamepad.right_bumper;
         boolean goingDown = gamepad.left_bumper;
         double elbowPos = robot.getElbowPos();
         if (goingUp) {
-//            elbowPos += ELBOW_POS_SCALE;
-            elbowPos = 1;
+            elbowPos += ELBOW_POS_SCALE;
             robot.setElbowPos(elbowPos);
         } else if (goingDown) {
-//            elbowPos -= ELBOW_POS_SCALE;
-            elbowPos = 0;
+            elbowPos -= ELBOW_POS_SCALE;
             robot.setElbowPos(elbowPos);
         }
 
         return elbowPos;
     }
-    public static final double CLAW_POS_SCALE = 0.04;
     public double moveClaw(@NonNull Gamepad gamepad) {
         boolean close = gamepad.right_bumper;
         boolean open = gamepad.left_bumper;
-        double clawPos = robot.getClawPos();
 
         if (close) {
             robot.closeClaw();
@@ -248,16 +244,7 @@ public class Gaybians extends LinearOpMode {
         else if (open) {
             robot.openClaw();
         }
-//        double clawPos = robot.getClawPos();
-//        if(close){
-//            clawPos += CLAW_POS_SCALE;
-//            robot.setClawPos(clawPos);
-//        }
-//        else if(open){
-//            clawPos -= CLAW_POS_SCALE;
-//            robot.setClawPos(clawPos);
-//        }
-        return clawPos;
+        return robot.getClawPos();
     }
 
     public void runOpMode() {
@@ -265,8 +252,9 @@ public class Gaybians extends LinearOpMode {
         float speedFactor = 0.7f;
 
         robot.setClawPos(Inktonaut.CLAW_POS_CLOSE);
-        robot.setWristPos(0);
-        robot.setElbowPos(0);
+        robot.setWristPos(Inktonaut.WRIST_POS_PIXEL);
+        robot.setElbowPos(Inktonaut.ELBOW_POS_PIXEL);
+        robot.setSlidePos(Inktonaut.SLIDES_BOTTOM);
 
         waitForStart();
         while(opModeIsActive())
@@ -275,6 +263,7 @@ public class Gaybians extends LinearOpMode {
             int slidePos = moveSlides(gamepad2);
             double clawPos = moveClaw(gamepad1);
             double wristPos = moveWrist(gamepad2);
+            double armSystem = moveArmSystem(gamepad2);
             double elbowPos = moveElbow(gamepad2);
 
 //            telemetry.addData("imu", robot.imu.getAngularOrientation());
@@ -283,6 +272,7 @@ public class Gaybians extends LinearOpMode {
             telemetry.addData("Slide position", slidePos);
             telemetry.addData("Claw position", clawPos);
             telemetry.addData("Wrist position", wristPos);
+            telemetry.addData("Arm System" , armSystem);
             telemetry.addData("Elbow position", elbowPos);
             telemetry.update();
         }
