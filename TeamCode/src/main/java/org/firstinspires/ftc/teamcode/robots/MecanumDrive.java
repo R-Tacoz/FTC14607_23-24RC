@@ -87,7 +87,7 @@ public class MecanumDrive extends RobotBase { // TODO: samplemecanumdrive?
     /**
      * Assigns the current position of every motor on the drivetrain to tick (position) 0
      */
-    public void resetDriveTrainEncoders() { setRunMode(drivetrain, DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);}
+    public void resetDriveTrainEncoders() { setRunMode(drivetrain, DcMotor.RunMode.STOP_AND_RESET_ENCODER);}
 
     /**
      * Sets all the motors in motors[] to the passed run mode
