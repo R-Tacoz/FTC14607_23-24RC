@@ -8,9 +8,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
+import org.firstinspires.ftc.teamcode.robots.Inktonaut;
 import org.firstinspires.ftc.teamcode.robots.Octonaut;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.util.odometry.Pose;
@@ -30,9 +32,16 @@ import java.util.concurrent.TimeUnit;
 @Config
 @Autonomous(name = "Main Auto", group = "Main")
 public class UniGarten extends LinearOpMode {
+    Inktonaut robot = null;
 
     @Override
     public void runOpMode() throws InterruptedException {
+        //Park
+        robot = new Inktonaut(this);
+        waitForStart();
 
+        while(opModeIsActive()){
+
+        }
     }
 }

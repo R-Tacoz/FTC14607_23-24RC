@@ -47,10 +47,10 @@ public class MecanumDrive extends RobotBase { // TODO: samplemecanumdrive?
     public MecanumDrive(LinearOpMode opModeInstance) {
         super(opModeInstance);
 
-        frontRight = hardwareMap.get(DcMotorEx.class, "FrontRight");
-        frontLeft = hardwareMap.get(DcMotorEx.class, "FrontLeft");
-        backRight = hardwareMap.get(DcMotorEx.class, "BackRight");
-        backLeft = hardwareMap.get(DcMotorEx.class, "BackLeft");
+        frontRight = hardwareMap.get(DcMotorEx.class, "rightFront");
+        frontLeft = hardwareMap.get(DcMotorEx.class, "leftFront");
+        backRight = hardwareMap.get(DcMotorEx.class, "rightRear");
+        backLeft = hardwareMap.get(DcMotorEx.class, "leftRear");
         drivetrain = new DcMotorEx[]{frontRight, frontLeft, backRight, backLeft};
 
         frontLeft.setDirection(DcMotorEx.Direction.REVERSE);
