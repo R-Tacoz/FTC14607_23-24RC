@@ -26,9 +26,16 @@ public class Inktonaut extends MecanumDrive {
     public final static RobotDimensions DIMENSIONS = new RobotDimensions(
             -1, -1, -1, 9.6, 537.7
     );
-    public final static int SLIDES_BOTTOM = 100; // ticks
-    public final static int SLIDES_TOP = 900;
-    public final static double WRIST_POS_BACKDROP = 0.3;
+    public final static int SLIDES_BOTTOM = 0; // ticks
+    public final static int SLIDES_TOP = 670;
+    public final static double SLIDES_DEFAULT_SPEED = 300; // ticks / sec
+    public final static double SLIDES_BUFFER = 30; // ticks
+    public final static double WRIST_POS_PIXEL = 0.01;
+    public final static double WRIST_POS_BACKDROP = 0.34;
+    public final static double ELBOW_POS_PIXEL = 0.01;
+    public final static double ELBOW_POS_BACKDROP = 0.3;
+    public final static double CLAW_POS_OPEN = 0.325;
+    public final static double CLAW_POS_CLOSE = 0.6;
 
     public Inktonaut(LinearOpMode opModeInstance) {
         super(opModeInstance);
@@ -36,11 +43,12 @@ public class Inktonaut extends MecanumDrive {
 
         slides = hardwareMap.get(DcMotorEx.class, "slides");
         claw = hardwareMap.get(Servo.class, "claw");
-        //wrist = hardwareMap.get(Servo.class, "wrist");
-//        elbow = hardwareMap.get(Servo.class, "elbow");
-//        gliderRelease = hardwareMap.get(Servo.class, "gliderRelease");
+        wrist = hardwareMap.get(Servo.class, "wrist");
+        elbow = hardwareMap.get(Servo.class, "elbow");
+      //  gliderRelease = hardwareMap.get(Servo.class, "gliderRelease");
 
         slides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slides.setDirection(DcMotor.Direction.REVERSE);
         // TODO: make variables if this matters
 //        slides.setVelocityPIDFCoefficients(15.0, 2.0, 0.0, 0);
 //        slides.setPositionPIDFCoefficients(10.0);
@@ -70,9 +78,11 @@ public class Inktonaut extends MecanumDrive {
     public double getClawPos() {
         return claw.getPosition();
     }
-    public void setClawPos(double pos) {
-        claw.setPosition(pos);
+    public void setClawPos(double pos)  {
+        claw.setPosition(Range.clip(pos, CLAW_POS_OPEN, CLAW_POS_CLOSE));
     }
+    public void closeClaw() { claw.setPosition(CLAW_POS_CLOSE); }
+    public void openClaw() { claw.setPosition(CLAW_POS_OPEN); }
     public double getWristPos() {
         return wrist.getPosition();
     }
@@ -83,7 +93,11 @@ public class Inktonaut extends MecanumDrive {
         return elbow.getPosition();
     }
     public void setElbowPos(double pos) {
-        elbow.setPosition(pos);
+        if (getSlidePos() > SLIDES_BOTTOM + 100)
+            elbow.setPosition(Range.clip(pos, 0, 1));
+        else
+            elbow.setPosition(0);
+//        elbow.setPosition(Range.clip(pos, ELBOW_POS_BACKDROP, ELBOW_POS_PIXEL));
     }
 
     /**
@@ -112,7 +126,6 @@ public class Inktonaut extends MecanumDrive {
     /** @param height - (ticks)     */
     public void setSlidePos(int height) {
         height = Range.clip(height, SLIDES_BOTTOM, SLIDES_TOP);
-        slides.setDirection(DcMotorSimple.Direction.FORWARD);
         slides.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         slides.setTargetPosition(height);
         slides.setVelocity( (height > getSlidePos()) ? 1200:1000 ); //going up is faster than going down
